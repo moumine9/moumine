@@ -1,0 +1,111 @@
+- company:
+    name: "Bentley Systems"
+    sector: "Engineering, Hydraulics System"
+    team: "Water Infrastructure"
+    place: "Quebec City, QC"
+  type: "frontend;"
+  role:
+    name: "Software Engineer"
+    description: "As a software developper, I was in charge of building/maintaining a Web application that helps water utilities manage and optimize their operations. It integrates various tools and data sources, including SCADA, GIS, and hydraulic modeling, into a single connected platform. The application provides real-time information about system and asset performance, and can alert users to potential risks and operational challenges. It also allows users to perform 'what-if' scenarios and risk assessments to improve service levels and minimize risk."
+    tasks:
+      - designing the layout and visual appearance of the application.
+      - implementing features such as real-time data visualization, interactive maps.
+      - Create fast and efficient component to display data based on iTwinJS.
+      - Write and run unit tests (Enzyme) for individual components, and ensure that the application is reliable and maintainable over time.
+  years:
+    start: "2020-05"
+    end: "now"
+  languages: ["Javascript", "TypeScript"]
+  technologies: ["DataBrisk", "ElasticSearch", "AzureCloud"]
+  environment:
+    editor: ["Visual Studio Code", "Visual Studio Enterprise 2019"]
+- company:
+    name: "Premier Tech"
+    sector: "Maufacturing, Operations"
+    team: "PTSA (PremierTech System Automations"
+    place: "Rivière-du-loup, QC"
+  type: "backend;frontend;others"
+  role:
+    name: "Software Developper"
+    description: "As a full stack developper my focus was on creating and maintaining the tools and systems that Premier Tech uses to run its business. The list goes from supporting SolidEdge (create machines plan) to flows in Dynamics"
+    tasks:
+      - Collaborating with designers and other stakeholders to create user-friendly, visually appealing interfaces for web and software applications (Angular 6)
+      - Maintaining and updating Premier Tech's internal APIs, ensuring that they remain secure, performant, and scalable as the business grows and evolves
+      - Writing unit tests for differents applications (frontEnd with Jest Mocha; Backend) , using tools like Jest or Mocha to ensure that your code is reliable and maintainable over time
+      - Developing plugins that allows Premier Tech's sales team to manage and track customer leads and orders (CRM Microsoft Dynamics)
+      - Support for Solid Edge that adds new features and functionality to the software, making it easier and more efficient for Premier Tech's engineers to design and create complex products.
+      - Monitoring and analyzing application logs and other data to identify potential issues and performance bottlenecks, and working with your team to address them as necessary. (Microsoft Azure Cloud)
+  years:
+    start: "2019-01"
+    end: "2020-05"
+  languages: ["python", "C#", "Javascript", "Typescript"]
+  technologies: ["DataBrisk", "ElasticSearch", "AzureCloud"]
+  environment:
+    editor: ["Visual Studio Code", "Visual Studio Enterprise 2019"]
+- company:
+    name: "BELL (Bell Aliant)"
+    sector: "Telecommunications"
+    team: "Assining Team"
+    place: "Moncton, N.-B."
+  type: "others"
+  role:
+    name: "Network Representative I"
+    description: "As a Network Representative I, I was responsible for ensuring that the company's network infrastructure is functioning properly. This may involve tasks such as troubleshooting network issues, installing and configuring network equipment, and monitoring network performance. They may also be responsible for maintaining network security and implementing network upgrades and improvements. In general, a network representative at Bell plays a crucial role in ensuring that the company's network is reliable, efficient, and secure."
+    tasks:
+      - Troubleshooting network issues and resolving problems
+      - Installing and configuring network equipment, such as routers, switches, and other hardware
+      - Monitoring network performance and analyzing network traffic to identify potential problems or areas for improvement
+      - Coordinating with other teams, such as engineering and IT, to implement network upgrades and improvements
+      - Providing technical support and assistance to other members of the company, as needed
+      - Maintaining documentation and records related to the company's network infrastructure (feeder, distribution, switches, fiber-op infrastucre)
+      - Participating in training and development programs to stay up-to-date on industry best practices and technologies. (Switching from Alcaltel Lucent ONts to Huamei)
+  years:
+    start: "2018-05"
+    end: "2018-10"
+- company:
+    name: "Groupe des Technologies - Université de Moncton"
+    sector: "Education, Integration"
+    place: "Moncton, N.-B."
+  type: "frontend;intern"
+  role:
+    name: "COOP Intern I"
+    description: "As an intern, I was in charge of ..."
+    tasks:
+      - Digitalisation des cours en pdf avec ajout d’interactivité.
+      - Création de code HTML, feuilles de styles + programmation en JS.
+      - Développement d’outils internes (Convertisseur Docx, estimateur de prix)
+  years:
+    start: "2019-01"
+    end: "2020-05"
+  languages: ["python", "C#", "Javascript", "Typescript"]
+  technologies: ["DataBrisk", "ElasticSearch", "AzureCloud"]
+  environment:
+    editor: ["Visual Studio Code", "Visual Studio Enterprise 2019"]
+- company:
+    name: "Nordia (Bell Aliant)"
+    sector: "Telecommunications"
+    place: "Moncton, N.-B."
+  type: "others"
+  role:
+    name: "Technical Support Agent"
+    description: "As a Technical Support Agent, I was in charge of XXXX"
+    tasks:
+      - Diagnostiquer and exécuter des tests techniques pour le téléphone, l’internet, la TV et tous autres produits derives de Bell Aliant.
+      - Apporter de l’information techniques aux clients tout en s’assurant que leurs besoins soient comblés.
+  years:
+    start: "2016-06"
+    end: "2018-12"
+
+- company:
+    name: "Médias Acadiens Universitaires"
+    sector: "Media"
+    place: "Moncton, N.-B."
+  type: "frontend"
+  role:
+    name: "Webmaster"
+    description: "As a webmaster, I was in charge of maintaining websites in WordPress"
+    tasks:
+      - Maintenir 2 différent site-webs propulsés par Wordpress.
+  years:
+    start: "2015-12"
+    end: "2016-12"

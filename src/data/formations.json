@@ -1,0 +1,32 @@
+[
+  {
+    "place": "Université de Moncton",
+    "type": "Bachelor in Computer Science - COOP",
+    "link": "https://www.umoncton.ca",
+    "time": {
+      "start": "2015-01",
+      "end": "2019-05"
+    },
+    "courses": [
+      "INFO4007 & INFO4024: Introduction to Machine Learning and Computer Vision",
+      "Algorithms and Data Structures (INFO2012, INFO3012 and INFO3014) (mostly C++)",
+      "INFO4006 & 4018: Web Developement (PHP - Javascript - HTML - CSS)",
+      "Introduction to software engineering : Agile, SCRUM, UML"
+    ]
+  },
+  {
+    "place": "Deep Learning Institute - Nvidia - Online",
+    "type": "Practical Deep-Learning Workshop",
+    "link": "https://www.nvidia.com/en-in/training/instructor-led-workshops/fundamentals-of-deep-learning/",
+    "time": {
+      "start": "2017-10",
+      "end": "2017-11"
+    },
+    "courses": [
+      "Deep Learning Demystified and Applied Deep Learning",
+      "Image Classficiation with DIGITS (lab)",
+      "Object Detection with DIGITS (lab)",
+      "Neural Network Deployment with DIGITS and TensorRT (lab)"
+    ]
+  }
+]

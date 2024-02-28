@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Route, Router } from 'preact-router';
+import { Route, Router, LocationProvider } from 'preact-iso';
 
 import Header from './header';
 
@@ -10,15 +10,17 @@ import Footer from './footer';
 
 export default function App() {
     return (
-        <div id="preact-root">
+        <LocationProvider>
+        <main>
             <Header />
             <Router>
                 <Route path="/" component={Home} />
                 <Route path="/generate" component={GenerateResume} />
-                <Route path='*' component={NotFound} />
+                <Route default component={NotFound} />
             </Router>
             {/*             <Footer /> */}
-        </div>
+        </main>
+        </LocationProvider>
     );
 }
 

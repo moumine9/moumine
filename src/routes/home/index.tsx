@@ -98,7 +98,7 @@ export default function Home() {
 function Profile(props: { class?: string; }) {
 
   return (<div class={`${props.class} d-flex flex-column align-items-center`}>
-    <img class={"rounded border"} alt={"Generated avatar"} src={"../../assets/avatar.png"} width={"256"} height={"256"} />
+    <img class={"rounded border"} alt={"Generated avatar"} src="./avatar.png" width={"256"} height={"256"} />
     <h3>Abdoul Moumine</h3>
     <p> <i class={"fa fa-duotone fa-location-dot"} /> QC &mdash; Canada </p>
   </div>);

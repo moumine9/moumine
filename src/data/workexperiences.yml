@@ -1,4 +1,30 @@
 - company:
+    name: "Familiprix"
+    sector: "Health Sector - Pharmacy"
+    team: "Priorx V2"
+    place: "Quebec City, QC"
+  type: "frontend;"
+  role:
+    name: "Web developper"
+    description: "Participate in the creation of the next gen version of pharmacy software. Fully web and cloud based."
+    tasks:
+      - designing the layout and visual appearance of the application.
+      - implementing features such as real-time data visualization, interactive maps.
+      - Create fast and efficient component to display data based latest react.
+      - Enhance the common front-end librairy (Storybook)
+  years:
+    start: "2023-01"
+    end: "now"
+  languages: ["TypeScript"]
+  technologies: ["Confluence", "GitLab", "Jira", "JiraCloud", "Storybook", "Micro-FrontEnd Architecture"]
+  librairies:
+    - ReactQuery v4
+    - React-hook-form
+    - Yup Extensions
+
+  environment:
+    editor: ["Visual Studio Code", "Rider"]
+- company:
     name: "Bentley Systems"
     sector: "Engineering, Hydraulics System"
     team: "Water Infrastructure"
@@ -14,9 +40,12 @@
       - Write and run unit tests (Enzyme) for individual components, and ensure that the application is reliable and maintainable over time.
   years:
     start: "2020-05"
-    end: "now"
+    end: "2023-01"
   languages: ["Javascript", "TypeScript"]
   technologies: ["DataBrisk", "ElasticSearch", "AzureCloud"]
+  librairies:
+    - ReactQuery v4
+    - PlotlyJS
   environment:
     editor: ["Visual Studio Code", "Visual Studio Enterprise 2019"]
 - company:

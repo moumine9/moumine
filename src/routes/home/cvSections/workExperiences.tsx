@@ -106,8 +106,6 @@ function ModalExperience(props: {
 
                 <ListGroup className={"d-flex"} horizontal>
 
-                    {  }
-
                     <ListGroupItem class={"flex-fill"}>
                         <h5 class={"mb-3"}> <Icon iconName={"fa-brackets-curly"} /> Languages</h5>
                         <ul>{exp.languages?.map(e => <li key={`expLanguages${e}`}>{e}</li>)}</ul>
@@ -120,7 +118,7 @@ function ModalExperience(props: {
 
                     <ListGroupItem className={"flex-fill"}>
                         <h5 class={"mb-3"}> <Icon iconName="fa-cubes" /> Frameworks</h5>
-                        <p>Coming Soon !</p>
+                        <ul>{exp?.librairies?.map(e => <li key={`expLibrairies${e}`}>{e}</li>)}</ul>
                     </ListGroupItem>
 
                 </ListGroup>
@@ -175,6 +173,7 @@ export interface WorkExperience {
     frameworks?: Frameworks
     technologies?: string[]
     environment?: Environment
+    librairies?: string[]
 }
 
 export interface Company {

@@ -1,6 +1,6 @@
 import { h, VNode } from 'preact';
 import linksJson from '../../data/links.json';
-import TechnlogiesSummary from './cvSections/languages';
+import TechnologiesSummary from './cvSections/languages';
 import Awards from './cvSections/awards';
 import WorkExperiences from './cvSections/workExperiences';
 import Formations from './cvSections/formations';
@@ -26,12 +26,12 @@ export default function Home() {
     {
       id: "technologiesSummary",
       title: "Languages/Technologies",
-      component: <TechnlogiesSummary class={"cleafix"} />
+      component: <TechnologiesSummary class={"cleafix"} />
     },
     {
       id: "workExperience",
       title: "Work Experience",
-      component: <WorkExperiences />
+      component: <WorkExperiences />,
     },
     {
       id: "formations",
@@ -62,7 +62,10 @@ export default function Home() {
 
         <div class={"row my-5"}>
           <Profile class={"col-4"} />
-          <LinksElements class={"col-8"} />
+          <div class={"col-8"}>
+            <LinksElements />
+            <h4 class="text-center text-italic">Codito Ergo Sum</h4>
+          </div>
         </div>
 
         <a href="#cv" class="btn btn-lg btn-secondary fw-bold border-white bg-primary">
@@ -74,9 +77,8 @@ export default function Home() {
       <div id="cv" class="row vh-100 p-3">
         <div class="col-4">
           <ul id="sideMenu" class="nav nav-pills flex-column sticky-top mt-3 simple-list-example-scrollspy">
-
             {menuItems.map(({ id, title }) => <li key={`sideMenuElements${id}`} class="nav-item">
-              <a class="nav-link" href={`#${id}`}>{title} <span class={"badge rounded-pill bg-primary"}>{0}</span> </a>
+              <a class="nav-link" href={`#${id}`}>{title}</a>
             </li>)}
           </ul>
         </div>
@@ -85,7 +87,7 @@ export default function Home() {
             {
               menuItems.map(e => <div key={e.id} id={e.id} class={"p-3 my-3 border-bottom"}>
                 <h4 class={"mb-4"}>{e.title}</h4>
-                {e.component}
+                <div height={"100vh"}>{e.component}</div>
               </div>)
             }
           </div>
@@ -105,7 +107,7 @@ function Profile(props: { class?: string; }) {
 }
 
 function LinksElements(props: {
-  class: string;
+  class?: string;
 }) {
 
   const fontAwesomeStyle = {
@@ -124,14 +126,21 @@ function LinksElements(props: {
     hobbies: "fa-dice"
   };
 
-  const getIconStyle = (icon: string) => icon.includes("fa-brands") ? `${icon} ${fontAwesomeStyle.size}` : `${fontAwesomeStyle.style} ${fontAwesomeStyle.size} ${icon}`;
-  const generateValue = (value: string) => value.includes("http") ? <a href={value} target={"_blank"} rel={"noreferrer"} >{value.split("/").at(-1)}</a> : <span>{value}</span>;
+  const titles: Record<string, string> = {
+    github: "Github Profile",
+    email: "Mail Me",
+    cellNumber: "Call Me",
+    linkedIn: "Let's connect on LinkedIn"
+  };
 
-  return (<ul class={`d-flex flex-row flex-wrap gap-1 ${props.class}`}>
+  const getIconStyle = (icon: string) => icon.includes("fa-brands") ? `${icon} ${fontAwesomeStyle.size}` : `${fontAwesomeStyle.style} ${fontAwesomeStyle.size} ${icon}`;
+  const generateValue = (value: string, key: string) => ["github", "email", "cellNumber", "linkedIn"].includes(key) ? <a href={value} target={"_blank"} rel={"noreferrer"} class={"text-center"} >{titles[key]}</a> : <span>{titles[key] ?? value}</span>;
+
+  return (<ul class={`d-flex flex-row flex-wrap gap-2 ${props?.class}`}>
     {
-      Object.entries(linksJson).map(([key, value]) => <li key={`linksElements${key}`} className="p-3 d-flex flex-column" data-toggle="tooltip" data-placement="top" title={key}>
+      Object.entries(linksJson).map(([key, value]) => <li key={`linksElements${key}`} className="d-flex p-3 flex-column" data-toggle="tooltip" data-placement="top" title={key}>
         <i class={getIconStyle(icons[key] ?? "")} />
-        {generateValue(value as string)}
+        {generateValue(value as string, key)}
       </li>)
     }
   </ul>);

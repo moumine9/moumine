@@ -117,7 +117,7 @@ function ModalExperience(props: {
                     </ListGroupItem>
 
                     <ListGroupItem className={"flex-fill"}>
-                        <h5 class={"mb-3"}> <Icon iconName="fa-cubes" /> Frameworks</h5>
+                        <h5 class={"mb-3"}> <Icon iconName="fa-cubes" />Librairies</h5>
                         <ul>{exp?.librairies?.map(e => <li key={`expLibrairies${e}`}>{e}</li>)}</ul>
                     </ListGroupItem>
 

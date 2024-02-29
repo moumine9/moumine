@@ -2,7 +2,7 @@ import { h } from 'preact';
 import languagesJson from '../../../data/languages.json';
 
 
-export default function TechnlogiesSummary(props: { class?: string }) {
+export default function TechnologiesSummary(props: { class?: string }) {
 
     return (
         <div class={props.class}>

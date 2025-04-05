@@ -1,13 +1,13 @@
-import { h, Fragment } from "preact";
-import { useCallback, useMemo, useState } from 'preact/hooks';
-import { Button, Modal, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Fragment } from "preact";
+import { useMemo, useState } from 'preact/hooks';
+import { ListGroup, ListGroupItem, Modal } from "react-bootstrap";
 
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 import workExperiencesJson from "../../../data/workexperiences.json";
-import styles from "../style.css";
+import "../style.css";
 
 
 export default function WorkExperiences(props: {
@@ -47,8 +47,8 @@ function ExperienceCard(props: {
     const exp = props.experience;
 
     return (
-        <div class="col-6 p-1" style={{ height: "250px;" }} onClick={props.onClick}>
-            <div class={`card ${styles["onHoverZoom"]}`}>
+        <div class="col-6 p-1" style={{ height: "250px",  }} onClick={props.onClick}>
+            <div class={'card onHoverZoom'}>
                 <div class="card-body">
                     <h5 class="card-title">{exp.role.name}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{exp.company.name} &mdash; {exp.company.place}</h6>

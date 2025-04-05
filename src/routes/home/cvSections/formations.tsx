@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import formationsJson from '../../../data/formations.json';
 
 

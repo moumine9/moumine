@@ -1,9 +1,9 @@
-import { h, VNode } from 'preact';
+import { VNode } from 'preact';
 import linksJson from '../../data/links.json';
-import TechnologiesSummary from './cvSections/languages';
 import Awards from './cvSections/awards';
-import WorkExperiences from './cvSections/workExperiences';
 import Formations from './cvSections/formations';
+import TechnologiesSummary from './cvSections/languages';
+import WorkExperiences from './cvSections/workExperiences';
 
 interface MenuItem {
   id: string;
@@ -62,7 +62,12 @@ export default function Home() {
 
         <div class={"row my-5"}>
           <Profile class={"col-4"} />
-          <div class={"col-8"}>
+          <div class={"col-8"} style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
             <LinksElements />
             <h4 class="text-center text-italic">Codito Ergo Sum</h4>
           </div>
@@ -100,8 +105,9 @@ export default function Home() {
 function Profile(props: { class?: string; }) {
 
   return (<div class={`${props.class} d-flex flex-column align-items-center`}>
-    <img class={"rounded border"} alt={"Generated avatar"} src="./avatar.png" width={"256"} height={"256"} />
+    <img class={"rounded"} alt={"Generated avatar"} src="./avatar.png" width={"256"} height={"256"} />
     <h3>Abdoul Moumine</h3>
+    <h5> <i class="fa-duotone fa-solid fa-mars" /> He/Him</h5>
     <p> <i class={"fa fa-duotone fa-location-dot"} /> QC &mdash; Canada </p>
   </div>);
 }
@@ -123,18 +129,20 @@ function LinksElements(props: {
     name: "fa-user",
     place: "fa-location-dot",
     linkedIn: "fa-brands fa-linkedin",
-    hobbies: "fa-dice"
+    hobbies: "fa-dice",
+    twitter: "fa-brands fa-x-twitter",
   };
 
   const titles: Record<string, string> = {
     github: "Github Profile",
     email: "Mail Me",
     cellNumber: "Call Me",
-    linkedIn: "Let's connect on LinkedIn"
+    linkedIn: "Let's connect on LinkedIn",
+    "twitter": "Follow me on Twitter",
   };
 
   const getIconStyle = (icon: string) => icon.includes("fa-brands") ? `${icon} ${fontAwesomeStyle.size}` : `${fontAwesomeStyle.style} ${fontAwesomeStyle.size} ${icon}`;
-  const generateValue = (value: string, key: string) => ["github", "email", "cellNumber", "linkedIn"].includes(key) ? <a href={value} target={"_blank"} rel={"noreferrer"} class={"text-center"} >{titles[key]}</a> : <span>{titles[key] ?? value}</span>;
+  const generateValue = (value: string, key: string) => ["github", "linkedIn", "twitter"].includes(key) ? <a href={value} target={"_blank"} rel={"noreferrer"} class={"text-center"} >{titles[key]}</a> : <span>{titles[key] ?? value}</span>;
 
   return (<ul class={`d-flex flex-row flex-wrap gap-2 ${props?.class}`}>
     {

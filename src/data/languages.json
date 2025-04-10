@@ -1,5 +1,5 @@
 {
-  "Web": {
+  "Frontend": {
     "Languages": {
       "HTML": 10,
       "CSS": 10,
@@ -16,7 +16,7 @@
       "Jquery": 9
     }
   },
-  "Programmation": {
+  "Backend": {
     "Languages": {
       "C#": 7,
       "Python": 7,

@@ -1,5 +1,5 @@
-import { h } from 'preact';
-import awardsJson from '../../../data/awards.json';
+import { Table } from 'react-bootstrap';
+import awardsJson from '../../data/awards.json';
 
 interface Award {
     contest: string;
@@ -14,14 +14,16 @@ export default function Awards(props: {
 
     const awards: Award[] = awardsJson;
 
-    return (<table class={"table table-hover table-striped table-bordered"}>
+    return (
+    <div class="cover"><Table hover striped bordered>
         <thead>
             <tr>
-                {Object.keys(awards[0]).map(e => <th key={`awardHeader${e}`} scope={"col"}>{e.toUpperCase()}</th>)}
+                {Object.keys(awards[0]).map(e => <th key={`awardHeader${e}`} scope={"col"}>{e}</th>)}
             </tr>
         </thead>
         <tbody>
             {awards.map((row, index) => <tr key={`tableRow${index}`}>{Object.values(row).map((r, indexCell) => <td key={`tableCell${index}${indexCell}`}>{r}</td>)}</tr>)}
         </tbody>
-    </table>);
+    </Table>
+    </div>);
 }

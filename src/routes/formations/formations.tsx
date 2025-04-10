@@ -1,4 +1,4 @@
-import formationsJson from '../../../data/formations.json';
+import formationsJson from '../../data/formations.json';
 
 
 export default function Formations(props: {

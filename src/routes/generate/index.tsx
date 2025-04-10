@@ -1,19 +1,12 @@
-import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
-import style from './style.css';
+import { Col, Row } from 'react-bootstrap';
 
 export default function GenerateResume() {
-
-
-	return <div class={"row col-offset-2"}>
-
-		<div class={"col-4"}>
+	return <Row className="col-offset-2">
+		<Col xs={4}>
 			Menu list selected
-		</div>
-
-		<div class={"col-4"}>
+		</Col>
+		<Col xs={4}>
 			Selector
-		</div>
-
-	</div>
+		</Col>
+	</Row>
 }

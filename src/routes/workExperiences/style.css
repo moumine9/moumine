@@ -5,7 +5,7 @@
 }
 
 .onHoverZoom{
-	transition: transform .2s; /* Animation */
+	transition: transform .2s;
 }
 
 .onHoverZoom:hover{

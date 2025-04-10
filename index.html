@@ -13,9 +13,24 @@
     <script src="https://kit.fontawesome.com/c5fb437417.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body data-bs-theme="auto">
     <div id="app"></div>
     <script prerender type="module" src="/src/index.tsx"></script>
+    <script>
+        // Set theme from localStorage or calculate based on time
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-bs-theme', savedTheme);
+        } else {
+            const currentHour = new Date().getHours();
+            // Simple approach: consider 6 AM to 6 PM as daylight
+            const isDaylight = currentHour >= 6 && currentHour < 18;
+            const theme = isDaylight ? 'light' : 'dark';
+            document.body.setAttribute('data-bs-theme', theme);
+            // Save the calculated theme
+            localStorage.setItem('theme', theme);
+        }
+    </script>
 </body>
 
 </html>

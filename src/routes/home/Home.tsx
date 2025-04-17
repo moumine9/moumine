@@ -1,8 +1,8 @@
-import { useLocalStorage } from '@uidotdev/usehooks';
-import { VNode } from 'preact';
-import { Col, Container, Row } from 'react-bootstrap';
-import TechnologiesSummary from './languages';
-import LinksElements from './LinksElements';
+import { VNode } from "preact";
+import { Col, Container, Row } from "react-bootstrap";
+import { useLocalStorage } from "usehooks-ts";
+import TechnologiesSummary from "./languages";
+import LinksElements from "./LinksElements";
 
 interface MenuItem {
   id: string;
@@ -10,9 +10,8 @@ interface MenuItem {
   component: VNode;
 }
 
-
 export default function Home() {
-  const [theme, _] = useLocalStorage('theme', 'light');
+  const [theme, _] = useLocalStorage("theme", "light");
 
   const comingSoon: VNode = <figure>
     <blockquote class="blockquote mx-auto my-3">

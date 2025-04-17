@@ -1,25 +1,16 @@
-import { useClickAway, useHover, useLocalStorage } from "@uidotdev/usehooks";
 import { useState } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useLocalStorage } from "usehooks-ts";
 
 type Theme = "light" | "dark" | "auto";
 
 const Header = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [theme, saveTheme] = useLocalStorage<Theme>("theme", "light");
-  const [hoverRef, isHovering] = useHover();
+  const [theme, setTheme] = useLocalStorage<Theme>("theme", "light");
   const [isLanguage, setIsLanguage] = useLocalStorage("language", "fr");
 
-  const ref = useClickAway<HTMLDivElement>(() => {
-    toggleSettings();
-  });
-
-  const toggleSettings = () => {
-    setIsSettingsOpen(!isSettingsOpen);
-  };
-
   const handleChangeTheme = (theme: Theme) => () => {
-    saveTheme(() => theme);
+    setTheme(theme);
     document.documentElement.setAttribute("data-bs-theme", theme);
     document.documentElement.setAttribute("data-theme", theme);
   };
@@ -75,25 +66,6 @@ const Header = () => {
                 &nbsp;Automatic
               </NavDropdown.Item>
             </NavDropdown>
-
-{/*             <NavDropdown
-              title={
-                <i
-                  ref={hoverRef}
-                  className={`fa fa-cog fa-duotone fa-lg ${
-                    isHovering ? "fa-spin" : ""
-                  }`}
-                />
-              }
-              id="navbarScrollingDropdown"
-            >
-              <NavDropdown.Item href="#" disabled>
-                Français
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#" disabled>
-                English
-              </NavDropdown.Item>
-            </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

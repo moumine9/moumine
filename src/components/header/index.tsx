@@ -1,4 +1,3 @@
-import { useClickAway, useHover, useLocalStorage } from "@uidotdev/usehooks";
 import { useState } from "react";
 import {
   Container,
@@ -6,6 +5,7 @@ import {
   Nav,
   Navbar
 } from "react-bootstrap";
+import { useClickAway, useHover, useLocalStorage } from "usehooks-ts";
 
 type Theme = "light" | "dark";
 

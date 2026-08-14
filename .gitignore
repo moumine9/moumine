@@ -144,3 +144,10 @@ preact-*.tgz
 preact.tgz
 build/
 build/*
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Local CV source files (not for public repo)
+src/data/*.docx

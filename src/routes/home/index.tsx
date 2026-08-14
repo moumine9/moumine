@@ -20,7 +20,7 @@ export default function Home() {
 
   const comingSoon: VNode = <figure>
     <blockquote class="blockquote mx-auto my-3">
-      <p>Something greate coming here soon !!!</p>
+      <p>Something great coming here soon !!!</p>
     </blockquote>
     <figcaption class="blockquote-footer">
       Someone famous in <cite title="Source Title">Source Title</cite>

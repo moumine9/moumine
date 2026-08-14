@@ -7,11 +7,13 @@ export interface VisitorCredentials {
 }
 
 export function saveVisitorCredentials(name: string, email: string): void {
+  if (typeof window === "undefined") return;
   const credentials: VisitorCredentials = { name, email, timestamp: new Date().toISOString() };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
 }
 
 export function getVisitorCredentials(): VisitorCredentials | null {
+  if (typeof window === "undefined") return null;
   const stored = localStorage.getItem(STORAGE_KEY);
   if (!stored) return null;
   try {

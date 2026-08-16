@@ -2,3 +2,69 @@
 #app, .app {
 	height: 100%;
 }
+
+.profile-section {
+	display: flex;
+	flex-direction: column;
+	max-width: 560px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 1.5rem;
+	border: 1px solid var(--bs-border-color);
+	border-radius: 0.75rem;
+	background: var(--bs-tertiary-bg);
+}
+
+.profile-section__divider {
+	width: 100%;
+	margin: 1.25rem 0;
+	border: 0;
+	border-top: 1px solid var(--bs-border-color);
+	opacity: 1;
+}
+
+.profile-card {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.profile-card__avatar {
+	width: 128px;
+	height: 128px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+}
+
+.profile-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+.profile-card__name {
+	font-size: 1.75rem;
+	font-weight: 600;
+	margin: 0;
+	line-height: 1.2;
+}
+
+.profile-card__role {
+	color: var(--bs-secondary-color);
+	margin: 0;
+}
+
+.profile-card__meta {
+	color: var(--bs-secondary-color);
+	margin: 0.25rem 0 0;
+	font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+	.profile-card {
+		flex-direction: column;
+		text-align: center;
+	}
+}

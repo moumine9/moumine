@@ -1,64 +1,47 @@
-import { VNode } from "preact";
-import { Col, Container, Row } from "react-bootstrap";
+import { useState } from "preact/hooks";
+import { Container } from "react-bootstrap";
 import { useLocalStorage } from "usehooks-ts";
 import TechnologiesSummary from "./languages";
 import LinksElements from "./LinksElements";
-
-interface MenuItem {
-  id: string;
-  title: string;
-  component: VNode;
-}
+import { isAuthenticated } from "../../utils/visitorAuth";
 
 export default function Home() {
   const [theme, _] = useLocalStorage("theme", "light");
-
-  const comingSoon: VNode = <figure>
-    <blockquote class="blockquote mx-auto my-3">
-      <p>Something greate coming here soon !!!</p>
-    </blockquote>
-    <figcaption class="blockquote-footer">
-      Someone famous in <cite title="Source Title">Source Title</cite>
-    </figcaption>
-  </figure>;
+  const [authed, setAuthed] = useState(typeof window !== "undefined" ? isAuthenticated() : false);
 
   return (
     <Container>
-      <Row className="cover-container d-flex col-12 vh-100 mx-auto flex-column">
-        <Row className={"my-5"}>
-          <Profile class={"col-4"} />
-          <Col className={"col-8"} style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}>
-            <LinksElements />
-            <h4 class="text-center text-italic">Codito Ergo Sum</h4>
-          </Col>
-        </Row>
+      <div class="cover-container d-flex vh-100 flex-column justify-content-center align-items-center gap-4">
+        <section class="profile-section">
+          <Profile />
+          <hr class="profile-section__divider" />
+          <LinksElements authenticated={authed} onAuthenticated={() => setAuthed(true)} />
+        </section>
+        <p class="text-muted fst-italic m-0">Codito Ergo Sum</p>
 
-        <a href="#cv" class={`btn btn-lg btn-${theme} fw-bold border-${theme === "dark" ? "black" : "white"} color-white`}>
-          <span class="fa-1x5 fa-duotone fa-circle-arrow-down" />
+        <a href="#cv" class={`btn btn-lg btn-${theme} fw-bold border-${theme === "dark" ? "black" : "white"} text-white mt-3`}>
+          <span class="fa-2x fa-duotone fa-circle-arrow-down" />
         </a>
-      </Row>
+      </div>
 
-      <Row id="cv" class="vh-100 p-3">
-        <Col class="col-12">
-          <TechnologiesSummary class={"cleafix"} theme={theme} />
-        </Col>
-      </Row>
+      <div id="cv" class="vh-100 p-3">
+        <TechnologiesSummary class={"clearfix"} theme={theme} />
+      </div>
     </Container>
   );
 }
 
-function Profile(props: { class?: string; }) {
+function Profile() {
   return (
-    <Col className={`${props.class} d-flex flex-column align-items-center`}>
-      <img className="rounded" alt="Generated avatar" src="./avatar.png" width="256" height="256" />
-      <h3>Abdoul Moumine</h3>
-      <h5><i className="fa-duotone fa-solid fa-mars" /> He/Him</h5>
-      <p><i className="fa fa-duotone fa-location-dot" /> QC &mdash; Canada</p>
-    </Col>
+    <article class="profile-card">
+      <img class="profile-card__avatar" alt="Generated avatar" src="./avatar.png" width="128" height="128" />
+      <div class="profile-card__body">
+        <h1 class="profile-card__name">Abdoul Moumine</h1>
+        <p class="profile-card__role">Software Engineer</p>
+        <p class="profile-card__meta">
+          <i class="fa-duotone fa-location-dot" /> QC &mdash; Canada
+        </p>
+      </div>
+    </article>
   );
 }

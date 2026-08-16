@@ -1,29 +1,38 @@
-import { Table } from 'react-bootstrap';
 import awardsJson from '../../data/awards.json';
 
 interface Award {
-    contest: string;
-    category: string;
-    time: string;
-    place: string;
+  contest: string;
+  category: string;
+  time: string;
+  place: string;
 }
 
-export default function Awards(props: {
-    class?: string;
-}) {
+export default function Awards() {
+  const awards: Award[] = awardsJson;
 
-    const awards: Award[] = awardsJson;
+  return (
+    <section class="page">
+      <header class="page__header">
+        <div>
+          <div class="page__eyebrow">Récompenses</div>
+          <h1 class="page__title">Awards.</h1>
+        </div>
+        <span class="hero__masthead-issue">{awards.length} entries</span>
+      </header>
 
-    return (
-    <div class="cover"><Table hover striped bordered>
-        <thead>
-            <tr>
-                {Object.keys(awards[0]).map(e => <th key={`awardHeader${e}`} scope={"col"}>{e}</th>)}
-            </tr>
-        </thead>
-        <tbody>
-            {awards.map((row, index) => <tr key={`tableRow${index}`}>{Object.values(row).map((r, indexCell) => <td key={`tableCell${index}${indexCell}`}>{r}</td>)}</tr>)}
-        </tbody>
-    </Table>
-    </div>);
+      <ul class="awardlist">
+        {awards.map((a, i) => (
+          <li key={`award-${i}`} class="awardlist__item">
+            <div>
+              <h3 class="awardlist__title">
+                {a.contest}
+                <small>{a.category} &nbsp;·&nbsp; {a.place}</small>
+              </h3>
+            </div>
+            <span class="awardlist__meta">{a.time}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }

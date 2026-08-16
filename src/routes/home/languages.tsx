@@ -1,137 +1,67 @@
-import {
-    Card,
-    Col,
-    Container,
-    ListGroup,
-    Nav,
-    ProgressBar,
-    Row,
-    Tab,
-} from "react-bootstrap";
 import languagesJson from "../../data/languages.json";
 
 type TechnologiesSummaryProps = {
-  theme: string;
+  theme?: string;
   class?: string;
 };
 
-export default function TechnologiesSummary({
-  theme,
-  ...props
-}: TechnologiesSummaryProps) {
+interface LanguageType {
+  Languages: Record<string, number>;
+  Frameworks: Record<string, number>;
+}
+
+export default function TechnologiesSummary(_props: TechnologiesSummaryProps) {
   return (
-    <Container className={`p-5 mh-100 ${props.class}`}>
-      {Object.entries(languagesJson).map(([key, value]) => (
-        <Section
-          key={`Section${key}`}
-          type={key as string}
-          content={value as LanguageType}
-          theme={theme}
+    <div class="skills">
+      {Object.entries(languagesJson).map(([groupName, group]) => (
+        <SkillGroup
+          key={`group-${groupName}`}
+          name={groupName as string}
+          content={group as LanguageType}
         />
       ))}
-    </Container>
+    </div>
   );
 }
 
-function Section(props: {
-  type: string;
-  content: LanguageType;
-  theme: string;
-}) {
-  const backgrounds = ["", "bg-success", "bg-info", "bg-warning", "bg-danger"];
-
+function SkillGroup(props: { name: string; content: LanguageType }) {
   return (
-    <Card className="mb-3">
-      <Card.Header>
-        <h4>{props.type}</h4>
-      </Card.Header>
+    <section>
+      <h3 class="skills__group-title">
+        <span>{props.name}</span>
+        <span class="eyebrow">§ {String(Object.keys(props.content.Languages).length + Object.keys(props.content.Frameworks).length).padStart(2, "0")}</span>
+      </h3>
 
-      <Card.Body>
-        <Tab.Container id={`tabs-${props.type}`} defaultActiveKey="languages">
-          <Nav variant="tabs" className="nav-fill">
-            <Nav.Item>
-              <Nav.Link eventKey="languages">Languages</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="frameworks">Frameworks</Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <Tab.Content>
-            <Tab.Pane eventKey="languages" className="p-3">
-              <ListGroup variant="flush">
-                {Object.entries(props.content.Languages).map(
-                  ([key, value], index) => (
-                    <ProgresBar
-                      key={`ProgressBar${key}`}
-                      name={key}
-                      value={value}
-                      barColor={backgrounds[index % backgrounds.length]}
-                    />
-                  )
-                )}
-              </ListGroup>
-            </Tab.Pane>
-            <Tab.Pane eventKey="frameworks" className="p-3">
-              <ListGroup variant="flush">
-                {Object.entries(props.content.Frameworks).map(
-                  ([key, value], index) => (
-                    <ProgresBar
-                      key={`ProgressBar${key}`}
-                      name={key}
-                      value={value}
-                      barColor={backgrounds[index % backgrounds.length]}
-                    />
-                  )
-                )}
-              </ListGroup>
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
-      </Card.Body>
-    </Card>
+      <div class="skills__section">
+        <div class="skills__kind">Languages</div>
+        <ul class="skills__list">
+          {Object.entries(props.content.Languages).map(([name, value]) => (
+            <SkillMeter key={`lang-${name}`} name={name} value={value as number} />
+          ))}
+        </ul>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="skills__section">
+        <div class="skills__kind">Frameworks</div>
+        <ul class="skills__list">
+          {Object.entries(props.content.Frameworks).map(([name, value]) => (
+            <SkillMeter key={`fw-${name}`} name={name} value={value as number} />
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 
-function ProgresBar(props: { name: string; value: number; barColor: string }) {
-  const progress = props.value * 10;
-
+function SkillMeter(props: { name: string; value: number }) {
+  const pct = Math.min(100, Math.max(0, props.value * 10));
   return (
-    <ListGroup.Item className="p-0 border-0">
-      <Row className="my-2">
-        <Col xs={2}>
-          <p>{props.name}</p>
-        </Col>
-        <Col xs={10}>
-          <ProgressBar
-            striped
-            animated
-            className={props.barColor}
-            now={progress}
-            min={0}
-            max={100}
-            style={{ height: "20px" }}
-            label={`${props.value} / 10`}
-          />
-        </Col>
-      </Row>
-    </ListGroup.Item>
+    <li class="skill">
+      <span class="skill__name">{props.name}</span>
+      <span class="skill__meter" style={{ ["--pct" as any]: `${pct}%` }} />
+      <span class="skill__value">{props.value}/10</span>
+    </li>
   );
-}
-
-interface Root {
-  Web: LanguageType;
-  Programmation: LanguageType;
-}
-
-interface LanguageType {
-  Languages: Languages;
-  Frameworks: Frameworks;
-}
-
-interface Languages {
-  [key: string]: number;
-}
-
-interface Frameworks {
-  [key: string]: number;
 }

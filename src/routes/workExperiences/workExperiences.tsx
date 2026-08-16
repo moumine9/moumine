@@ -1,81 +1,87 @@
 import { Fragment } from "preact";
 import { useMemo, useState } from "preact/hooks";
-import { ListGroup, ListGroupItem, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import workExperiencesJson from "../../data/workexperiences.json";
-import "./style.css";
 
-export default function WorkExperiences(props: { class?: string }) {
-  const [selectedExperience, setSelectedExperience] =
-    useState<WorkExperience>();
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
+
+type FilterKey = "frontend" | "backend" | "others" | "contract" | "longterm" | "intern";
+
+const FILTERS: { key: FilterKey; label: string }[] = [
+  { key: "frontend", label: "Frontend" },
+  { key: "backend", label: "Backend" },
+  { key: "others", label: "Others" },
+  { key: "contract", label: "Contract" },
+  { key: "longterm", label: "Long-term" },
+  { key: "intern", label: "Intern" },
+];
+
+export default function WorkExperiences() {
+  const [selectedExperience, setSelectedExperience] = useState<WorkExperience>();
   const [showModal, setShowModal] = useState(false);
-  const [filters, setFilters] = useState({
-    frontend: false,
-    backend: false,
-    others: false,
-    contract: false,
-    longterm: false,
-    intern: false,
-  });
-
-  const theme = props.class === "dark" ? "dark" : "light";
+  const [active, setActive] = useState<Set<FilterKey>>(new Set());
 
   const rows: WorkExperience[] = useMemo(() => workExperiencesJson, []);
 
+  const visible = useMemo(() => {
+    if (active.size === 0) return rows;
+    return rows.filter((row) => {
+      const types = row.type?.split(";") ?? [];
+      return types.some((t) => active.has(t as FilterKey));
+    });
+  }, [rows, active]);
+
+  const toggle = (k: FilterKey) => {
+    setActive((prev) => {
+      const next = new Set(prev);
+      next.has(k) ? next.delete(k) : next.add(k);
+      return next;
+    });
+  };
+
   return (
     <Fragment>
-      <div class="d-flex flex-wrap justify-content-center">
-        <div class="form-check form-check-inline mb-5">
-          <input
-            class="form-check-input bg-danger"
-            type="checkbox"
-            checked={filters.frontend}
-            id="flexCheckDefault"
-            onChange={() =>
-              setFilters((prev) => ({ ...prev, frontend: !prev.frontend }))
-            }
-          />
-          <label class="form-check-label h5 fw-bold" for="flexCheckDefault">
-            Frontend
-          </label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input bg-info"
-            type="checkbox"
-            id="flexCheckChecked"
-            checked={filters.backend}
-            onChange={() =>
-              setFilters({ ...filters, backend: !filters.backend })
-            }
-          />
-          <label class="form-check-label h5 fw-bold" for="flexCheckChecked">
-            Backend
-          </label>
-        </div>
-      </div>
+      <section class="page">
+        <header class="page__header">
+          <div>
+            <div class="page__eyebrow">Chronicle</div>
+            <h1 class="page__title">Work.</h1>
+          </div>
+          <span class="hero__masthead-issue">{visible.length} entries</span>
+        </header>
 
-      <div class={`${props.class} d-flex flex-wrap justify-content-between`}>
-        {rows
-          .filter(
-            (row) =>
-              row.type && row.type.split(";").map((r) => !filters?.[r] === true)
-          )
-          .map((exp, index) => (
-            <ExperienceCard
-              key={`ExperienceCard${index}`}
-              experience={exp}
-              onClick={() => {
-                setSelectedExperience(exp);
-                setShowModal(true);
-              }}
-            />
+        <div class="filters" role="group" aria-label="Filter work by type">
+          {FILTERS.map(({ key, label }) => (
+            <button
+              key={`filter-${key}`}
+              type="button"
+              class="filter-pill"
+              aria-pressed={active.has(key)}
+              onClick={() => toggle(key)}
+            >
+              {label}
+            </button>
           ))}
-      </div>
+        </div>
+
+        {visible.map((exp, index) => (
+          <ExperienceEntry
+            key={`Entry${index}`}
+            experience={exp}
+            onOpen={() => {
+              setSelectedExperience(exp);
+              setShowModal(true);
+            }}
+          />
+        ))}
+      </section>
+
       {selectedExperience && (
         <ModalExperience
           show={showModal}
@@ -90,188 +96,115 @@ export default function WorkExperiences(props: { class?: string }) {
   );
 }
 
-function ExperienceCard(props: {
-  class?: string;
-  experience: WorkExperience;
-  onClick: () => void;
-}) {
+function ExperienceEntry(props: { experience: WorkExperience; onOpen: () => void }) {
   const exp = props.experience;
+  const startYear = String(exp.years.start).slice(0, 4);
+  const endYear = exp.years.end === "now" ? "Now" : String(exp.years.end).slice(0, 4);
+  const types = exp.type?.split(";") ?? [];
 
   return (
-    <div class="col-6 p-1" style={{ height: "250px" }} onClick={props.onClick}>
-      <div class={"card onHoverZoom"}>
-        <div class="card-body">
-          <h5 class="card-title">{exp.role.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">
-            {exp.company.name} &mdash; {exp.company.place}
-          </h6>
-          <p class="card-text">
-            {exp.years.start} &mdash; {exp.years.end}
-          </p>
-          <p class="card-text">{exp.role.description?.substring(0, 100)} ...</p>
-        </div>
-        <div class={`card-footer`}>
-          <WorkTypeBadge
-            key={`WorkTypeBadge${exp.company.name}`}
-            expName={exp.company.name}
-            type={exp.type}
-          />
-        </div>
+    <article class="entry">
+      <div class="entry__date">
+        {startYear}
+        <small>&mdash; {endYear}</small>
       </div>
-    </div>
+      <div class="entry__body">
+        <h3 class="entry__role">{exp.role.name}</h3>
+        <p class="entry__place">
+          {exp.company.name} &mdash; {exp.company.place}
+        </p>
+        {exp.role.description && (
+          <p class="entry__desc">
+            {exp.role.description.length > 220
+              ? exp.role.description.slice(0, 220) + "…"
+              : exp.role.description}
+          </p>
+        )}
+        <ul class="entry__tags">
+          {types.map((t) => (
+            <li key={`entry-tag-${exp.company.name}-${t}`} class="entry__tag">
+              {t}
+            </li>
+          ))}
+        </ul>
+        <button type="button" class="entry__link" onClick={props.onOpen}>
+          Read more &rarr;
+        </button>
+      </div>
+    </article>
   );
 }
 
-function ModalExperience(props: {
-  show: boolean;
-  exp: WorkExperience;
-  onClose: () => void;
-}) {
+function ModalExperience(props: { show: boolean; exp: WorkExperience; onClose: () => void }) {
   const { exp, onClose, show } = props;
 
-  dayjs.extend(relativeTime);
-  dayjs.extend(duration);
-
-  const Icon = (props: { iconName: string }) => (
-    <i class={`fa-duotone ${props.iconName} me-1`} />
-  );
-
-  const [roleStartDate, roleEndDate] = [
+  const [start, end] = [
     dayjs(exp.years.start),
     exp.years.end === "now" ? dayjs() : dayjs(exp.years.end),
   ];
-
-  const roleDuration = dayjs
-    .duration(roleStartDate.diff(roleEndDate))
-    .humanize();
+  const roleDuration = dayjs.duration(start.diff(end)).humanize();
 
   return (
     <Modal
-      id={"modalExperience"}
+      id="modalExperience"
       show={show}
-      onHide={() => onClose()}
+      onHide={onClose}
       dialogClassName="modal-lg modal-dialog-scrollable"
-      aria-labelledby="example-custom-modal-styling-title"
+      centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="example-custom-modal-styling-title">
-          {exp.role.name} @ {exp.company.name}
+        <Modal.Title>
+          <span class="eyebrow" style={{ display: "block", marginBottom: "0.4rem" }}>
+            {exp.company.name}
+          </span>
+          {exp.role.name}
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p className={"my-2 text-break"}>{exp.role.description}</p>
+        <p class="privacy-body__lede">{exp.role.description}</p>
 
-        <ListGroup>
-          <ListGroupItem>
-            <ul>
-              {exp.role.tasks.map((t, index) => (
-                <li key={`roleTasks${exp.role.name}${index}`}>{t}</li>
-              ))}
-            </ul>
-          </ListGroupItem>
+        <hr class="rule" />
 
-          <ListGroup className={"d-flex"} horizontal>
-            <ListGroupItem class={"flex-fill"}>
-              <h5 class={"mb-3"}>
-                {" "}
-                <Icon iconName={"fa-brackets-curly"} /> Languages
-              </h5>
-              <ul>
-                {exp.languages?.map((e) => (
-                  <li key={`expLanguages${e}`}>{e}</li>
-                ))}
-              </ul>
-            </ListGroupItem>
+        <div class="eyebrow" style={{ marginBottom: "0.75rem" }}>Responsibilities</div>
+        <ul style={{ fontFamily: "var(--font-serif)", color: "var(--ink-soft)", paddingLeft: "1.25rem" }}>
+          {exp.role.tasks.map((t, i) => (
+            <li key={`task-${i}`} style={{ marginBottom: "0.35rem" }}>{t}</li>
+          ))}
+        </ul>
 
-            <ListGroupItem className={"flex-fill"}>
-              <h5 className={"mb-3"}>
-                {" "}
-                <Icon iconName={"fa-brain-circuit"} /> Technologies
-              </h5>
-              <ul class={"list-unstyled"}>
-                {exp.technologies?.map((e) => (
-                  <li key={`expLanguages${e}`}>
-                    {" "}
-                    <Icon iconName="fa-check" /> {e}
-                  </li>
-                ))}
-              </ul>
-            </ListGroupItem>
+        {exp.languages && exp.languages.length > 0 && (
+          <>
+            <hr class="rule" />
+            <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>Languages</div>
+            <p style={{ fontFamily: "var(--font-serif)" }}>{exp.languages.join(" · ")}</p>
+          </>
+        )}
 
-            <ListGroupItem className={"flex-fill"}>
-              <h5 class={"mb-3"}>
-                {" "}
-                <Icon iconName="fa-cubes" />
-                Librairies
-              </h5>
-              <ul>
-                {exp?.librairies?.map((e) => (
-                  <li key={`expLibrairies${e}`}>{e}</li>
-                ))}
-              </ul>
-            </ListGroupItem>
-          </ListGroup>
+        {exp.technologies && exp.technologies.length > 0 && (
+          <>
+            <hr class="rule" />
+            <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>Technologies</div>
+            <p style={{ fontFamily: "var(--font-serif)" }}>{exp.technologies.join(" · ")}</p>
+          </>
+        )}
 
-          <ListGroupItem>
-            <p>
-              {" "}
-              <i class="fa-duotone fa-clock me-1" />{" "}
-              <span>{exp.years.start}</span> &mdash;{" "}
-              <span>{exp.years.end}</span> &nbsp;&nbsp;{" "}
-              <i class={"text-muted"}>({roleDuration})</i>{" "}
-            </p>
-          </ListGroupItem>
+        {exp.librairies && exp.librairies.length > 0 && (
+          <>
+            <hr class="rule" />
+            <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>Libraries</div>
+            <p style={{ fontFamily: "var(--font-serif)" }}>{exp.librairies.join(" · ")}</p>
+          </>
+        )}
 
-          <ListGroupItem>
-            <p>
-              {" "}
-              <i class="fa-duotone fa-user-helmet-safety me-1" />{" "}
-              {exp.company.team} (<i>{exp.company.sector}</i>){" "}
-            </p>
-          </ListGroupItem>
-
-          <ListGroupItem>
-            <p>
-              {" "}
-              <i class="fa-duotone fa-location-dot me-1" /> {exp.company.place}{" "}
-            </p>
-          </ListGroupItem>
-
-          <ListGroupItem>
-            <p>
-              {" "}
-              <i class="fa-duotone fa-tags me-1" />{" "}
-              <WorkTypeBadge expName={exp.company.name} type={exp.type} />{" "}
-            </p>
-          </ListGroupItem>
-        </ListGroup>
+        <hr class="rule" />
+        <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", fontFamily: "var(--font-serif)", color: "var(--ink-mute)", fontStyle: "italic" }}>
+          <span>{exp.years.start} &mdash; {exp.years.end} ({roleDuration})</span>
+          <span>{exp.company.place}</span>
+          {exp.company.team && <span>{exp.company.team} · {exp.company.sector}</span>}
+        </div>
       </Modal.Body>
     </Modal>
-  );
-}
-
-function WorkTypeBadge(props: { expName: string; type: string }) {
-  const expTypeStyles: Record<string, string> = {
-    frontend: "bg-danger",
-    backend: "bg-info",
-    others: "bg-light",
-    contract: "bg-warning",
-    longterm: "bg-Success",
-    intern: "bg-primary",
-  };
-
-  return (
-    <span className={"my-1"}>
-      {props.type.split(";").map((k) => (
-        <span
-          key={`expType${props.expName}${k}`}
-          class={`badge ${expTypeStyles[k]} mx-1`}
-        >
-          {k}
-        </span>
-      ))}
-    </span>
   );
 }
 

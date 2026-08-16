@@ -1,40 +1,67 @@
 import formationsJson from '../../data/formations.json';
 
+export default function Formations() {
+  const formations: Formations = formationsJson;
 
-export default function Formations(props: {
-    class?: string;
-}) {
+  return (
+    <section class="page">
+      <header class="page__header">
+        <div>
+          <div class="page__eyebrow">Curriculum</div>
+          <h1 class="page__title">Study.</h1>
+        </div>
+        <span class="hero__masthead-issue">{formations.length} programs</span>
+      </header>
 
-    const formations: Formations = formationsJson;
+      {formations.map((formation, index) => {
+        const startYear = String(formation.time.start).slice(0, 4);
+        const endYear = String(formation.time.end).slice(0, 4);
 
-    const Icon = ( (props: { iconName: string }) => <i class={`fa-duotone ${ props.iconName.includes("fa") ? props.iconName : `fa-${props.iconName}`} me-1`} />);
-
-    return (<div className={props.class}>
-        {formations.map((formation, indexF) => <div key={`formation#${indexF}`} class={"card mb-3"}>
-            <div class={"card-body"}>
-                <h4 class={"card-title m-1"} > <Icon iconName={"fa-building-columns"} /> <a href={formation.link} target="_blank" rel="noreferrer"><b>{formation.place}</b></a></h4>
-                <h5 class={"card-subtitle m-1"} > <Icon iconName={"fa-graduation-cap"} /> {formation.type}</h5>
-                <h6 class={"card-subtitle text-muted m-1"}> <Icon iconName={"clock"} /> {formation.time.start} &mdash; {formation.time.end}</h6>
-                <ul class={"card-text list-bullets my-3"}>
-                    {formation.courses.map((t, index) => <li key={`formation${indexF}courses${index}`}>{t}</li>)}
-                </ul>
+        return (
+          <article key={`formation-${index}`} class="entry">
+            <div class="entry__date">
+              {startYear}
+              <small>&mdash; {endYear}</small>
             </div>
-        </div>)}</div>);
+            <div class="entry__body">
+              <h3 class="entry__role">
+                <a
+                  href={formation.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "inherit", textDecoration: "none", borderBottom: "1px solid var(--ink)" }}
+                >
+                  {formation.place}
+                </a>
+              </h3>
+              <p class="entry__place">{formation.type}</p>
+              <ul style={{ fontFamily: "var(--font-serif)", color: "var(--ink-soft)", paddingLeft: "1.25rem", margin: 0 }}>
+                {formation.courses.map((course, i) => (
+                  <li key={`course-${index}-${i}`} style={{ marginBottom: "0.3rem" }}>
+                    {course}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        );
+      })}
+    </section>
+  );
 }
-
 
 type Formations = Formation[];
 export type Formation = Root;
 
 export interface Root {
-    place: string
-    type: string
-    link: string
-    time: Time
-    courses: string[]
+  place: string;
+  type: string;
+  link: string;
+  time: Time;
+  courses: string[];
 }
 
 export interface Time {
-    start: string
-    end: string
+  start: string;
+  end: string;
 }

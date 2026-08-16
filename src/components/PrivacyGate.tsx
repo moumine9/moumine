@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import {
   saveVisitorCredentials,
   sendCredentialsToAPI,
@@ -44,7 +44,6 @@ export default function PrivacyGate({ onAuthenticated }: PrivacyGateProps) {
     if (!show) return;
 
     let cancelled = false;
-
     const renderWidget = () => {
       if (cancelled || !turnstileContainer.current || !window.turnstile) return;
       if (widgetId.current) return;
@@ -58,21 +57,18 @@ export default function PrivacyGate({ onAuthenticated }: PrivacyGateProps) {
 
     if (window.turnstile) {
       renderWidget();
-    } else {
-      const interval = window.setInterval(() => {
-        if (window.turnstile) {
-          window.clearInterval(interval);
-          renderWidget();
-        }
-      }, 100);
-      return () => {
-        cancelled = true;
-        window.clearInterval(interval);
-      };
+      return () => { cancelled = true; };
     }
 
+    const interval = window.setInterval(() => {
+      if (window.turnstile) {
+        window.clearInterval(interval);
+        renderWidget();
+      }
+    }, 100);
     return () => {
       cancelled = true;
+      window.clearInterval(interval);
     };
   }, [show]);
 
@@ -89,9 +85,9 @@ export default function PrivacyGate({ onAuthenticated }: PrivacyGateProps) {
   const validateForm = () => {
     const newErrors = { name: "", email: "" };
     let isValid = true;
-    if (!name.trim()) { newErrors.name = "Name is required"; isValid = false; }
-    if (!email.trim()) { newErrors.email = "Email is required"; isValid = false; }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { newErrors.email = "Please enter a valid email address"; isValid = false; }
+    if (!name.trim()) { newErrors.name = "Name required"; isValid = false; }
+    if (!email.trim()) { newErrors.email = "Email required"; isValid = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { newErrors.email = "Not a valid email"; isValid = false; }
     setErrors(newErrors);
     return isValid;
   };
@@ -109,58 +105,64 @@ export default function PrivacyGate({ onAuthenticated }: PrivacyGateProps) {
 
   return (
     <>
-      <Button variant="outline-secondary" size="sm" onClick={() => setShow(true)}>
-        <i class="fa-duotone fa-lock me-2" />
-        Unlock contact info
-      </Button>
+      <button type="button" class="linklist__unlock" onClick={() => setShow(true)}>
+        Unlock contact
+      </button>
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>
-            <i class="fa-duotone fa-shield-check me-2" />
-            Access Contact Information
+            <span class="eyebrow" style={{ display: "block", marginBottom: "0.4rem" }}>
+              Correspondance
+            </span>
+            Please leave your card.
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <p class="text-muted mb-3">
-            To view private contact details, please share your name and email.
+        <Modal.Body class="privacy-body">
+          <p class="privacy-body__lede">
+            To view private contact details, please share your name and email — a small
+            courtesy, so the exchange isn't one-sided.
           </p>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group class="mb-3">
-              <Form.Label>Full Name</Form.Label>
+          <Form onSubmit={handleSubmit} noValidate>
+            <Form.Group class="mb-4">
+              <Form.Label>Full name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter your full name"
+                placeholder="First and last"
                 value={name}
                 onInput={(e) => setName((e.target as HTMLInputElement).value)}
                 isInvalid={!!errors.name}
               />
               <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group class="mb-3">
-              <Form.Label>Email Address</Form.Label>
+            <Form.Group class="mb-4">
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="your.email@example.com"
+                placeholder="you@somewhere.tld"
                 value={email}
                 onInput={(e) => setEmail((e.target as HTMLInputElement).value)}
                 isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
             </Form.Group>
-            <div ref={turnstileContainer} class="mb-3 d-flex justify-content-center" />
-            <Button type="submit" variant="primary" class="w-100" disabled={isSubmitting || !turnstileToken}>
+
+            <div ref={turnstileContainer} class="mb-4 d-flex justify-content-center" />
+
+            <button
+              type="submit"
+              class="privacy-body__submit"
+              disabled={isSubmitting || !turnstileToken}
+            >
               {isSubmitting
-                ? <><span class="spinner-border spinner-border-sm me-2" role="status" /> Processing...</>
+                ? "Sending…"
                 : !turnstileToken
-                  ? <><i class="fa-solid fa-hourglass-half me-2" />Waiting for verification...</>
-                  : <><i class="fa-duotone fa-unlock me-2" />Grant Access</>
-              }
-            </Button>
+                  ? "Awaiting verification"
+                  : "Grant access"}
+            </button>
           </Form>
-          <p class="text-muted small mt-3">
-            <i class="fa-solid fa-circle-info me-1" />
-            Your info is stored locally and used only to personalise your experience.
+          <p class="privacy-body__fineprint">
+            Stored locally, sent nowhere unless you contact me back.
           </p>
         </Modal.Body>
       </Modal>

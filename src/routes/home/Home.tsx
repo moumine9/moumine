@@ -1,5 +1,4 @@
 import { useState } from "preact/hooks";
-import { Container } from "react-bootstrap";
 import { useLocalStorage } from "usehooks-ts";
 import TechnologiesSummary from "./languages";
 import LinksElements from "./LinksElements";
@@ -9,39 +8,54 @@ export default function Home() {
   const [theme, _] = useLocalStorage("theme", "light");
   const [authed, setAuthed] = useState(typeof window !== "undefined" ? isAuthenticated() : false);
 
+  const year = new Date().getFullYear();
+
   return (
-    <Container>
-      <div class="cover-container d-flex vh-100 flex-column justify-content-center align-items-center gap-4">
-        <section class="profile-section">
-          <Profile />
-          <hr class="profile-section__divider" />
-          <LinksElements authenticated={authed} onAuthenticated={() => setAuthed(true)} />
-        </section>
-        <p class="text-muted fst-italic m-0">Codito Ergo Sum</p>
+    <>
+      <section class="hero">
+        <div class="hero__masthead">
+          <span class="eyebrow">N° 001 &nbsp;·&nbsp; Codito Ergo Sum</span>
+          <span class="hero__masthead-issue">Édition {year}</span>
+        </div>
 
-        <a href="#cv" class={`btn btn-lg btn-${theme} fw-bold border-${theme === "dark" ? "black" : "white"} text-white mt-3`}>
-          <span class="fa-2x fa-duotone fa-circle-arrow-down" />
-        </a>
-      </div>
+        <div class="hero__grid">
+          <div class="hero__nameplate">
+            <h1 class="hero__name">
+              <span class="hero__name-word"><span>Abdoul</span></span>
+              <span class="hero__name-word"><span>Moumine.</span></span>
+            </h1>
+            <p class="hero__role">
+              Software Engineer<span class="dot">·</span>Québec, Canada
+            </p>
+            <p class="hero__tagline">
+              Building considered software. Interested in systems that read as
+              carefully as they run — clarity first, then everything else.
+            </p>
+          </div>
 
-      <div id="cv" class="vh-100 p-3">
-        <TechnologiesSummary class={"clearfix"} theme={theme} />
-      </div>
-    </Container>
-  );
-}
+          <figure class="hero__portrait">
+            <img src="./avatar.png" alt="Portrait" width="128" height="128" />
+            <figcaption class="hero__portrait-caption">
+              &mdash; the author
+            </figcaption>
+          </figure>
+        </div>
 
-function Profile() {
-  return (
-    <article class="profile-card">
-      <img class="profile-card__avatar" alt="Generated avatar" src="./avatar.png" width="128" height="128" />
-      <div class="profile-card__body">
-        <h1 class="profile-card__name">Abdoul Moumine</h1>
-        <p class="profile-card__role">Software Engineer</p>
-        <p class="profile-card__meta">
-          <i class="fa-duotone fa-location-dot" /> QC &mdash; Canada
-        </p>
-      </div>
-    </article>
+        <hr class="rule rule--short" />
+
+        <LinksElements authenticated={authed} onAuthenticated={() => setAuthed(true)} />
+      </section>
+
+      <section id="cv" class="page">
+        <header class="page__header">
+          <div>
+            <div class="page__eyebrow">Chapter II</div>
+            <h2 class="page__title">Skills</h2>
+          </div>
+          <span class="hero__masthead-issue">Reading time · 2 min</span>
+        </header>
+        <TechnologiesSummary theme={theme} />
+      </section>
+    </>
   );
 }

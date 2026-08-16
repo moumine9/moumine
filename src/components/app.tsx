@@ -13,27 +13,39 @@ import Home from "../routes/home/Home";
 import WorkExperiences from "../routes/workExperiences/workExperiences";
 
 export default function App() {
-  const [theme, _] = useLocalStorage("theme", "light");
+  const [theme] = useLocalStorage("theme", "light");
+  void theme;
 
   return (
     <LocationProvider>
-      <main class="app bg-body-secondary">
+      <main class="app">
         <Header />
-        <div class={`container p-5 mh-100`}>
-          <Router>
-            <Route path="/" component={Home} />
-            <Route path="/generate" component={GenerateResume} />
-            <Route path="/work-experiences" component={WorkExperiences} />
-            <Route path="/formations" component={Formations} />
-            <Route path="/awards" component={Awards} />
-            <Route default component={NotFound} />
-          </Router>
-        </div>
+        <Router>
+          <Route path="/" component={Home} />
+          <Route path="/generate" component={GenerateResume} />
+          <Route path="/work-experiences" component={WorkExperiences} />
+          <Route path="/formations" component={Formations} />
+          <Route path="/awards" component={Awards} />
+          <Route default component={NotFound} />
+        </Router>
       </main>
     </LocationProvider>
   );
 }
 
 function NotFound() {
-  return <p>I think you are lost!</p>;
+  return (
+    <section class="page">
+      <header class="page__header">
+        <div>
+          <div class="page__eyebrow">Errata</div>
+          <h1 class="page__title">Not found.</h1>
+        </div>
+        <span class="hero__masthead-issue">404</span>
+      </header>
+      <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--ink-soft)" }}>
+        The page you're looking for has been misfiled or never printed.
+      </p>
+    </section>
+  );
 }

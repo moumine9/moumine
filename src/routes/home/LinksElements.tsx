@@ -1,70 +1,61 @@
-import { Col } from 'react-bootstrap';
 import linksJson from '../../data/links.json';
 import PrivacyGate from '../../components/PrivacyGate';
 
-const fontAwesomeStyle = {
-  style: "fa-duotone",
-  size: "fa-2x",
-};
-
-const icons: Record<string, string> = {
-  github: "fa-brands fa-github",
-  email: "fa-envelope",
-  cellNumber: "fa-phone-rotary",
-  tableau: "fa-link",
-  name: "fa-user",
-  place: "fa-location-dot",
-  linkedIn: "fa-brands fa-linkedin",
-  hobbies: "fa-dice",
-  twitter: "fa-brands fa-x-twitter",
-};
-
-const titles: Record<string, string> = {
+const LABELS: Record<string, string> = {
   github: "Github",
-  email: "Mail Me",
-  cellNumber: "Call Me",
   linkedIn: "LinkedIn",
   twitter: "X (Twitter)",
+  email: "Email",
+  cellNumber: "Phone",
 };
 
+const ORDER = ["github", "linkedIn", "twitter", "email", "cellNumber"] as const;
 const PRIVATE_KEYS = new Set(["email", "cellNumber"]);
-const LINK_KEYS = ["github", "email", "cellNumber", "linkedIn", "twitter"];
 
 interface LinksElementsProps {
-  class?: string;
   authenticated: boolean;
   onAuthenticated: (name: string, email: string) => void;
 }
 
+function displayValue(key: string, url: string): string {
+  if (key === "email") return url.replace(/^mailto:/, "");
+  if (key === "cellNumber") return url.replace(/^tel:/, "");
+  if (key === "github") return "@moumine9";
+  if (key === "linkedIn") return "moumine9";
+  if (key === "twitter") return "@moumine9";
+  return url;
+}
+
 export default function LinksElements(props: LinksElementsProps) {
-  const getIconStyle = (icon: string) =>
-    icon.includes("fa-brands")
-      ? `${icon} ${fontAwesomeStyle.size}`
-      : `${fontAwesomeStyle.style} ${fontAwesomeStyle.size} ${icon}`;
-
-  const generateValue = (value: string, key: string) => {
-    if (PRIVATE_KEYS.has(key) && !props.authenticated) {
-      return <span class="text-muted fst-italic small">🔒 hidden</span>;
-    }
-    return LINK_KEYS.includes(key)
-      ? <a href={value} target={"_blank"} rel={"noreferrer"} class={"text-center"}>{titles[key]}</a>
-      : <span>{titles[key] ?? value}</span>;
-  };
-
   return (
-    <div className={`col-12 d-flex flex-column align-items-center gap-2 ${props?.class ?? ""}`}>
-      <div className="d-flex flex-row flex-wrap gap-2 justify-content-center">
-        {Object.entries(linksJson).map(([key, value]) => (
-          <Col key={`linksElements${key}`} className="d-flex flex-column align-items-center" data-toggle="tooltip" data-placement="top" title={key}>
-            <i className={getIconStyle(icons[key] ?? "")} />
-            {generateValue(value as string, key)}
-          </Col>
-        ))}
-      </div>
+    <div class="linklist">
+      <ul class="linklist__items">
+        {ORDER.map((key) => {
+          const value = (linksJson as Record<string, string>)[key];
+          if (!value) return null;
+          const isGated = PRIVATE_KEYS.has(key) && !props.authenticated;
+          return (
+            <li key={`link-${key}`} class="linklist__item">
+              <span class="linklist__label">{LABELS[key]}</span>
+              {isGated ? (
+                <span class="linklist__value linklist__value--hidden">withheld</span>
+              ) : (
+                <a
+                  class="linklist__value"
+                  href={value}
+                  target={key === "email" || key === "cellNumber" ? undefined : "_blank"}
+                  rel="noreferrer"
+                >
+                  {displayValue(key, value)}
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
       {!props.authenticated && (
-        <div className="mt-2">
-          <PrivacyGate onAuthenticated={props.onAuthenticated} />
-        </div>
+        <PrivacyGate onAuthenticated={props.onAuthenticated} />
       )}
     </div>
   );

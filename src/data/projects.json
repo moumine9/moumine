@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "moumine9/latoile",
+    "name": "latoile",
+    "description": "Context bridge between GitLab and Jira for LLMs — walks the Jira relationship graph from a single ticket, enriches every issue with merge requests, branches and commits, and serves the normalized graph through a live backend and interactive visualizer.",
+    "stars": 0,
+    "language": "TypeScript",
+    "topics": [
+      "llm",
+      "jira",
+      "gitlab",
+      "developer-tools"
+    ],
+    "url": "https://github.com/moumine9/latoile",
+    "pushedAt": "2026-07-24T06:55:56Z",
+    "updatedAt": "2026-07-15T00:35:09Z"
+  },
+  {
+    "slug": "moumine9/acli-skills",
+    "name": "acli-skills",
+    "description": "Claude Code skills and hooks for Jira — work items, sprints, and search via the Atlassian CLI (acli)",
+    "stars": 0,
+    "language": "Shell",
+    "topics": [],
+    "url": "https://github.com/moumine9/acli-skills",
+    "pushedAt": "2026-07-22T13:13:41Z",
+    "updatedAt": "2026-07-22T13:15:04Z"
+  },
+  {
+    "slug": "moumine9/glab-skills",
+    "name": "glab-skills",
+    "description": "Claude Code skills and hooks for GitLab — MRs, issues, and CI pipelines via the glab CLI",
+    "stars": 0,
+    "language": "Shell",
+    "topics": [],
+    "url": "https://github.com/moumine9/glab-skills",
+    "pushedAt": "2026-07-22T00:11:05Z",
+    "updatedAt": "2026-07-22T00:11:10Z"
+  },
+  {
+    "slug": "moumine9/claude-status",
+    "name": "claude-status",
+    "description": "A claude code plugin to show the current claude status",
+    "stars": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "url": "https://github.com/moumine9/claude-status",
+    "pushedAt": "2026-07-20T15:25:00Z",
+    "updatedAt": "2026-07-31T04:07:22Z"
+  },
+  {
+    "slug": "moumine9/claude-code-setup",
+    "name": "claude-code-setup",
+    "description": "Different stuffs I use for  pimping my claude-code",
+    "stars": 0,
+    "language": "Shell",
+    "topics": [],
+    "url": "https://github.com/moumine9/claude-code-setup",
+    "pushedAt": "2026-06-18T02:57:32Z",
+    "updatedAt": "2026-06-18T02:57:36Z"
+  }
+]

@@ -1,11 +1,9 @@
 import { useState } from "preact/hooks";
-import { useLocalStorage } from "usehooks-ts";
 import TechnologiesSummary from "./languages";
 import LinksElements from "./LinksElements";
 import { isAuthenticated } from "../../utils/visitorAuth";
 
 export default function Home() {
-  const [theme, _] = useLocalStorage("theme", "light");
   const [authed, setAuthed] = useState(typeof window !== "undefined" ? isAuthenticated() : false);
 
   const year = new Date().getFullYear();
@@ -54,7 +52,7 @@ export default function Home() {
           </div>
           <span class="hero__masthead-issue">Reading time · 2 min</span>
         </header>
-        <TechnologiesSummary theme={theme} />
+        <TechnologiesSummary />
       </section>
     </>
   );

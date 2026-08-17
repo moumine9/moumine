@@ -1,27 +1,52 @@
+import { useEffect, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
-import { useLocalStorage } from "usehooks-ts";
-
-type Theme = "light" | "dark";
+import {
+  applyTheme,
+  cycleThemePref,
+  readThemePref,
+  ThemePref,
+  writeThemePref,
+} from "../../utils/theme";
 
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/work-experiences", label: "Work" },
+  { href: "/projects", label: "Projects" },
   { href: "/formations", label: "Study" },
   { href: "/awards", label: "Awards" },
 ];
 
-const Header = () => {
-  const [theme, setTheme] = useLocalStorage<Theme>("theme", "light");
-  const { url } = useLocation();
+const ICONS: Record<ThemePref, string> = {
+  light: "fa-sun",
+  dark: "fa-moon",
+  auto: "fa-circle-half-stroke",
+};
 
-  const toggleTheme = () => {
-    const next: Theme = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    if (typeof document !== "undefined") {
-      document.documentElement.setAttribute("data-bs-theme", next);
-      document.body.setAttribute("data-bs-theme", next);
-    }
-  };
+const LABELS: Record<ThemePref, string> = {
+  light: "Light",
+  dark: "Dark",
+  auto: "Auto",
+};
+
+const Header = () => {
+  const { url } = useLocation();
+  const [pref, setPref] = useState<ThemePref>(() =>
+    typeof window === "undefined" ? "auto" : readThemePref(),
+  );
+
+  useEffect(() => {
+    applyTheme(pref);
+    writeThemePref(pref);
+
+    if (pref !== "auto") return;
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => applyTheme("auto");
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [pref]);
+
+  const onCycle = () => setPref((prev) => cycleThemePref(prev));
 
   return (
     <header class="masthead">
@@ -41,10 +66,11 @@ const Header = () => {
           <button
             type="button"
             class="masthead__theme"
-            aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-            onClick={toggleTheme}
+            aria-label={`Theme: ${LABELS[pref]}. Click to cycle.`}
+            title={`Theme: ${LABELS[pref]}`}
+            onClick={onCycle}
           >
-            <i class={`fa-solid ${theme === "light" ? "fa-moon" : "fa-sun"}`} />
+            <i class={`fa-solid ${ICONS[pref]}`} />
           </button>
         </nav>
       </div>

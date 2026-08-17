@@ -15,6 +15,28 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..800,0..100&family=Inter:wght@400;500;600&display=swap"
     />
 
+    <script>
+      // Resolve theme before first paint to avoid FOUC.
+      // Stored value is 'light' | 'dark' | 'auto'.
+      (function () {
+        try {
+          var pref = localStorage.getItem("theme") || "auto";
+          if (pref !== "light" && pref !== "dark" && pref !== "auto") pref = "auto";
+          var resolved = pref;
+          if (pref === "auto") {
+            resolved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          }
+          document.documentElement.setAttribute("data-bs-theme", resolved);
+          document.documentElement.setAttribute("data-theme-pref", pref);
+        } catch (e) {
+          document.documentElement.setAttribute("data-bs-theme", "light");
+          document.documentElement.setAttribute("data-theme-pref", "auto");
+        }
+      })();
+    </script>
+
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
@@ -27,23 +49,8 @@
     ></script>
   </head>
 
-  <body data-bs-theme="auto">
+  <body>
     <div id="app"></div>
     <script prerender type="module" src="/src/index.tsx"></script>
-    <script>
-      // Set theme from localStorage or calculate based on time
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        document.body.setAttribute("data-bs-theme", savedTheme);
-      } else {
-        const currentHour = new Date().getHours();
-        // Simple approach: consider 6 AM to 6 PM as daylight
-        const isDaylight = currentHour >= 6 && currentHour < 18;
-        const theme = isDaylight ? "light" : "dark";
-        document.body.setAttribute("data-bs-theme", theme);
-        // Save the calculated theme
-        localStorage.setItem("theme", theme);
-      }
-    </script>
   </body>
 </html>

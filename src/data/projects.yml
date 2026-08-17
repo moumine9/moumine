@@ -1,0 +1,7 @@
+- slug: "moumine9/latoile"
+  description: "Context bridge between GitLab and Jira for LLMs — walks the Jira relationship graph from a single ticket, enriches every issue with merge requests, branches and commits, and serves the normalized graph through a live backend and interactive visualizer."
+  tags: ["llm", "jira", "gitlab", "developer-tools"]
+- slug: "moumine9/acli-skills"
+- slug: "moumine9/glab-skills"
+- slug: "moumine9/claude-status"
+- slug: "moumine9/claude-code-setup"

@@ -7,6 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import workExperiencesJson from "../../data/workexperiences.json";
 import content from "./work.content.json";
+import { Icon } from "../../components/Icon";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -168,7 +169,7 @@ function ExperienceDialog(props: { exp: WorkExperience; onClose: () => void }) {
             <h2 class="dialog__title">{exp.role.name}</h2>
           </div>
           <button type="button" class="dialog__close" aria-label={labels.closeAriaLabel} onClick={onClose}>
-            <i class="fa-solid fa-xmark" />
+            <Icon name="xmark" />
           </button>
         </header>
 

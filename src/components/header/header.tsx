@@ -1,12 +1,12 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
 import {
   applyTheme,
-  cycleThemePref,
   readThemePref,
   ThemePref,
   writeThemePref,
 } from "../../utils/theme";
+import { Icon, IconName } from "../Icon";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -14,23 +14,18 @@ const NAV = [
   { href: "/projects", label: "Projects" },
 ];
 
-const ICONS: Record<ThemePref, string> = {
-  light: "fa-sun",
-  dark: "fa-moon",
-  auto: "fa-circle-half-stroke",
-};
-
-const LABELS: Record<ThemePref, string> = {
-  light: "Light",
-  dark: "Dark",
-  auto: "Auto",
-};
+const OPTIONS: { key: ThemePref; label: string; icon: IconName }[] = [
+  { key: "light", label: "Light", icon: "sun" },
+  { key: "dark", label: "Dark", icon: "moon" },
+  { key: "auto", label: "Auto", icon: "half-circle" },
+];
 
 const Header = () => {
   const { url } = useLocation();
   const [pref, setPref] = useState<ThemePref>(() =>
     typeof window === "undefined" ? "auto" : readThemePref(),
   );
+  const detailsRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     applyTheme(pref);
@@ -44,7 +39,23 @@ const Header = () => {
     return () => mq.removeEventListener("change", onChange);
   }, [pref]);
 
-  const onCycle = () => setPref((prev) => cycleThemePref(prev));
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const onDocClick = (e: MouseEvent) => {
+      const d = detailsRef.current;
+      if (!d || !d.open) return;
+      if (!(e.target instanceof Node) || !d.contains(e.target)) d.open = false;
+    };
+    document.addEventListener("click", onDocClick);
+    return () => document.removeEventListener("click", onDocClick);
+  }, []);
+
+  const select = (next: ThemePref) => {
+    setPref(next);
+    if (detailsRef.current) detailsRef.current.open = false;
+  };
+
+  const current = OPTIONS.find((o) => o.key === pref)!;
 
   return (
     <header class="masthead">
@@ -61,15 +72,29 @@ const Header = () => {
               {label}
             </a>
           ))}
-          <button
-            type="button"
-            class="masthead__theme"
-            aria-label={`Theme: ${LABELS[pref]}. Click to cycle.`}
-            title={`Theme: ${LABELS[pref]}`}
-            onClick={onCycle}
-          >
-            <i class={`fa-solid ${ICONS[pref]}`} />
-          </button>
+          <details ref={detailsRef} class="themepicker">
+            <summary class="themepicker__summary" aria-label={`Theme: ${current.label}`}>
+              <Icon name={current.icon} />
+              <span>{current.label}</span>
+              <Icon name="chevron-down" class="themepicker__chevron" />
+            </summary>
+            <ul class="themepicker__menu" role="menu">
+              {OPTIONS.map(({ key, label, icon }) => (
+                <li key={`opt-${key}`} role="none">
+                  <button
+                    type="button"
+                    role="menuitemradio"
+                    aria-checked={pref === key}
+                    class="themepicker__option"
+                    onClick={() => select(key)}
+                  >
+                    <Icon name={icon} />
+                    <span>{label}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </details>
         </nav>
       </div>
     </header>

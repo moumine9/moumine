@@ -370,17 +370,98 @@ body {
 	border-top: 1px solid var(--ink);
 }
 
-.masthead__theme {
-	background: none;
-	border: 0;
-	color: var(--ink-mute);
-	cursor: pointer;
-	padding: 0.25rem;
-	font-size: 1rem;
-	transition: color 180ms var(--tr-slow);
+.themepicker {
+	position: relative;
+	font-family: var(--font-sans);
 }
 
-.masthead__theme:hover { color: var(--ink); }
+.themepicker__summary {
+	list-style: none;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.35rem 0.75rem;
+	font-size: var(--fs-eyebrow);
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--ink-mute);
+	border: 1px solid var(--rule);
+	background: transparent;
+	transition: color 180ms var(--tr-slow), border-color 180ms var(--tr-slow);
+}
+
+.themepicker__summary::-webkit-details-marker { display: none; }
+.themepicker__summary::marker { display: none; content: ""; }
+
+.themepicker__summary:hover,
+.themepicker[open] .themepicker__summary {
+	color: var(--ink);
+	border-color: var(--ink);
+}
+
+.themepicker__chevron {
+	font-size: 0.6rem;
+	transition: transform 180ms var(--tr-slow);
+}
+
+.themepicker[open] .themepicker__chevron { transform: rotate(180deg); }
+
+.themepicker__menu {
+	position: absolute;
+	top: calc(100% + 6px);
+	right: 0;
+	min-width: 10rem;
+	list-style: none;
+	padding: 0.35rem;
+	margin: 0;
+	background: var(--paper);
+	border: 1px solid var(--ink);
+	z-index: 20;
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+}
+
+.themepicker__option {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	font-family: var(--font-sans);
+	font-size: var(--fs-eyebrow);
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--ink-soft);
+	text-align: left;
+	transition: background 140ms var(--tr-slow), color 140ms var(--tr-slow);
+}
+
+.themepicker__option:hover { background: var(--paper-tint); color: var(--ink); }
+
+.themepicker__option[aria-checked="true"] {
+	color: var(--ink);
+	background: var(--paper-tint);
+	position: relative;
+}
+
+.themepicker__option[aria-checked="true"]::after {
+	content: "•";
+	position: absolute;
+	right: 0.75rem;
+	color: var(--accent);
+	font-size: 1.2rem;
+	line-height: 1;
+}
+
+.themepicker__option i {
+	width: 1rem;
+	text-align: center;
+}
 
 @media (max-width: 640px) {
 	.masthead__inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }

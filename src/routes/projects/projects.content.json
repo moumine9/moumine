@@ -1,0 +1,14 @@
+{
+  "page": {
+    "eyebrow": "Open source",
+    "title": "Projects.",
+    "entriesLabel": "entries"
+  },
+  "entry": {
+    "readCaseStudyLabel": "Read the case study →",
+    "unknownLanguage": "—"
+  },
+  "caseStudies": {
+    "moumine9/latoile": "/projects/latoile"
+  }
+}

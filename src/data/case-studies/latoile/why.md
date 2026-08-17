@@ -1,0 +1,1 @@
+The same context an engineer assembles in their head every morning — Jira ticket, related tickets, open MRs, recent commits — is exactly the context an LLM assistant needs to be useful for planning, review, or standup summaries. latoile is that context, made portable.

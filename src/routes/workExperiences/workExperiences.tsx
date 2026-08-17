@@ -1,30 +1,20 @@
 import { Fragment } from "preact";
-import { useMemo, useState } from "preact/hooks";
-import { Modal } from "react-bootstrap";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import workExperiencesJson from "../../data/workexperiences.json";
+import content from "./work.content.json";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 
-type FilterKey = "frontend" | "backend" | "others" | "contract" | "longterm" | "intern";
-
-const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: "frontend", label: "Frontend" },
-  { key: "backend", label: "Backend" },
-  { key: "others", label: "Others" },
-  { key: "contract", label: "Contract" },
-  { key: "longterm", label: "Long-term" },
-  { key: "intern", label: "Intern" },
-];
+type FilterKey = string;
 
 export default function WorkExperiences() {
   const [selectedExperience, setSelectedExperience] = useState<WorkExperience>();
-  const [showModal, setShowModal] = useState(false);
   const [active, setActive] = useState<Set<FilterKey>>(new Set());
 
   const rows: WorkExperience[] = useMemo(() => workExperiencesJson, []);
@@ -33,7 +23,7 @@ export default function WorkExperiences() {
     if (active.size === 0) return rows;
     return rows.filter((row) => {
       const types = row.type?.split(";") ?? [];
-      return types.some((t) => active.has(t as FilterKey));
+      return types.some((t) => active.has(t));
     });
   }, [rows, active]);
 
@@ -45,19 +35,23 @@ export default function WorkExperiences() {
     });
   };
 
+  const entriesLabel = visible.length === 1
+    ? content.page.entriesLabelSingular
+    : content.page.entriesLabelPlural;
+
   return (
     <Fragment>
       <section class="page">
         <header class="page__header">
           <div>
-            <div class="page__eyebrow">Chronicle</div>
-            <h1 class="page__title">Work.</h1>
+            <div class="page__eyebrow">{content.page.eyebrow}</div>
+            <h1 class="page__title">{content.page.title}</h1>
           </div>
-          <span class="hero__masthead-issue">{visible.length} entries</span>
+          <span class="hero__masthead-issue">{visible.length} {entriesLabel}</span>
         </header>
 
         <div class="filters" role="group" aria-label="Filter work by type">
-          {FILTERS.map(({ key, label }) => (
+          {content.filters.map(({ key, label }) => (
             <button
               key={`filter-${key}`}
               type="button"
@@ -74,22 +68,15 @@ export default function WorkExperiences() {
           <ExperienceEntry
             key={`Entry${index}`}
             experience={exp}
-            onOpen={() => {
-              setSelectedExperience(exp);
-              setShowModal(true);
-            }}
+            onOpen={() => setSelectedExperience(exp)}
           />
         ))}
       </section>
 
       {selectedExperience && (
-        <ModalExperience
-          show={showModal}
+        <ExperienceDialog
           exp={selectedExperience}
-          onClose={() => {
-            setShowModal(false);
-            setSelectedExperience(undefined);
-          }}
+          onClose={() => setSelectedExperience(undefined)}
         />
       )}
     </Fragment>
@@ -99,8 +86,11 @@ export default function WorkExperiences() {
 function ExperienceEntry(props: { experience: WorkExperience; onOpen: () => void }) {
   const exp = props.experience;
   const startYear = String(exp.years.start).slice(0, 4);
-  const endYear = exp.years.end === "now" ? "Now" : String(exp.years.end).slice(0, 4);
+  const endYear = exp.years.end === "now"
+    ? content.entry.endLabelNow
+    : String(exp.years.end).slice(0, 4);
   const types = exp.type?.split(";") ?? [];
+  const maxChars = content.entry.descriptionMaxChars;
 
   return (
     <article class="entry">
@@ -115,8 +105,8 @@ function ExperienceEntry(props: { experience: WorkExperience; onOpen: () => void
         </p>
         {exp.role.description && (
           <p class="entry__desc">
-            {exp.role.description.length > 220
-              ? exp.role.description.slice(0, 220) + "…"
+            {exp.role.description.length > maxChars
+              ? exp.role.description.slice(0, maxChars) + "…"
               : exp.role.description}
           </p>
         )}
@@ -128,15 +118,17 @@ function ExperienceEntry(props: { experience: WorkExperience; onOpen: () => void
           ))}
         </ul>
         <button type="button" class="entry__link" onClick={props.onOpen}>
-          Read more &rarr;
+          {content.entry.readMoreLabel}
         </button>
       </div>
     </article>
   );
 }
 
-function ModalExperience(props: { show: boolean; exp: WorkExperience; onClose: () => void }) {
-  const { exp, onClose, show } = props;
+function ExperienceDialog(props: { exp: WorkExperience; onClose: () => void }) {
+  const { exp, onClose } = props;
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const labels = content.dialog;
 
   const [start, end] = [
     dayjs(exp.years.start),
@@ -144,67 +136,87 @@ function ModalExperience(props: { show: boolean; exp: WorkExperience; onClose: (
   ];
   const roleDuration = dayjs.duration(start.diff(end)).humanize();
 
+  useEffect(() => {
+    const d = dialogRef.current;
+    if (!d) return;
+    if (!d.open) d.showModal();
+    const onCancel = (e: Event) => {
+      e.preventDefault();
+      onClose();
+    };
+    d.addEventListener("cancel", onCancel);
+    return () => d.removeEventListener("cancel", onCancel);
+  }, [onClose]);
+
+  const onBackdropClick = (e: MouseEvent) => {
+    if (e.target === dialogRef.current) onClose();
+  };
+
   return (
-    <Modal
-      id="modalExperience"
-      show={show}
-      onHide={onClose}
-      dialogClassName="modal-lg modal-dialog-scrollable"
-      centered
+    <dialog
+      ref={dialogRef}
+      class="dialog"
+      onClick={onBackdropClick}
+      onClose={onClose}
     >
-      <Modal.Header closeButton>
-        <Modal.Title>
-          <span class="eyebrow" style={{ display: "block", marginBottom: "0.4rem" }}>
-            {exp.company.name}
-          </span>
-          {exp.role.name}
-        </Modal.Title>
-      </Modal.Header>
+      <div class="dialog__inner">
+        <header class="dialog__header">
+          <div>
+            <span class="eyebrow" style={{ display: "block", marginBottom: "0.4rem" }}>
+              {exp.company.name}
+            </span>
+            <h2 class="dialog__title">{exp.role.name}</h2>
+          </div>
+          <button type="button" class="dialog__close" aria-label={labels.closeAriaLabel} onClick={onClose}>
+            <i class="fa-solid fa-xmark" />
+          </button>
+        </header>
 
-      <Modal.Body>
-        <p class="privacy-body__lede">{exp.role.description}</p>
+        <div class="dialog__body">
+          <p class="dialog__lede">{exp.role.description}</p>
 
-        <hr class="rule" />
+          <hr class="rule" />
 
-        <div class="eyebrow" style={{ marginBottom: "0.75rem" }}>Responsibilities</div>
-        <ul style={{ fontFamily: "var(--font-serif)", color: "var(--ink-soft)", paddingLeft: "1.25rem" }}>
-          {exp.role.tasks.map((t, i) => (
-            <li key={`task-${i}`} style={{ marginBottom: "0.35rem" }}>{t}</li>
-          ))}
-        </ul>
+          <div class="eyebrow" style={{ marginBottom: "0.75rem" }}>{labels.responsibilitiesLabel}</div>
+          <ul style={{ fontFamily: "var(--font-serif)", color: "var(--ink-soft)", paddingLeft: "1.25rem" }}>
+            {exp.role.tasks.map((t, i) => (
+              <li key={`task-${i}`} style={{ marginBottom: "0.35rem" }}>{t}</li>
+            ))}
+          </ul>
 
-        {exp.languages && exp.languages.length > 0 && (
-          <>
-            <hr class="rule" />
-            <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>Languages</div>
-            <p style={{ fontFamily: "var(--font-serif)" }}>{exp.languages.join(" · ")}</p>
-          </>
-        )}
+          {exp.languages && exp.languages.length > 0 && (
+            <>
+              <hr class="rule" />
+              <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>{labels.languagesLabel}</div>
+              <p style={{ fontFamily: "var(--font-serif)" }}>{exp.languages.join(" · ")}</p>
+            </>
+          )}
 
-        {exp.technologies && exp.technologies.length > 0 && (
-          <>
-            <hr class="rule" />
-            <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>Technologies</div>
-            <p style={{ fontFamily: "var(--font-serif)" }}>{exp.technologies.join(" · ")}</p>
-          </>
-        )}
+          {exp.technologies && exp.technologies.length > 0 && (
+            <>
+              <hr class="rule" />
+              <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>{labels.technologiesLabel}</div>
+              <p style={{ fontFamily: "var(--font-serif)" }}>{exp.technologies.join(" · ")}</p>
+            </>
+          )}
 
-        {exp.librairies && exp.librairies.length > 0 && (
-          <>
-            <hr class="rule" />
-            <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>Libraries</div>
-            <p style={{ fontFamily: "var(--font-serif)" }}>{exp.librairies.join(" · ")}</p>
-          </>
-        )}
+          {exp.librairies && exp.librairies.length > 0 && (
+            <>
+              <hr class="rule" />
+              <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>{labels.librariesLabel}</div>
+              <p style={{ fontFamily: "var(--font-serif)" }}>{exp.librairies.join(" · ")}</p>
+            </>
+          )}
 
-        <hr class="rule" />
-        <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", fontFamily: "var(--font-serif)", color: "var(--ink-mute)", fontStyle: "italic" }}>
-          <span>{exp.years.start} &mdash; {exp.years.end} ({roleDuration})</span>
-          <span>{exp.company.place}</span>
-          {exp.company.team && <span>{exp.company.team} · {exp.company.sector}</span>}
+          <hr class="rule" />
+          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", fontFamily: "var(--font-serif)", color: "var(--ink-mute)", fontStyle: "italic" }}>
+            <span>{exp.years.start} &mdash; {exp.years.end} ({roleDuration})</span>
+            <span>{exp.company.place}</span>
+            {exp.company.team && <span>{exp.company.team} · {exp.company.sector}</span>}
+          </div>
         </div>
-      </Modal.Body>
-    </Modal>
+      </div>
+    </dialog>
   );
 }
 

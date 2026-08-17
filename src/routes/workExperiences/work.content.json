@@ -1,0 +1,28 @@
+{
+  "page": {
+    "eyebrow": "Chronicle",
+    "title": "Work.",
+    "entriesLabelSingular": "entry",
+    "entriesLabelPlural": "entries"
+  },
+  "filters": [
+    { "key": "frontend", "label": "Frontend" },
+    { "key": "backend", "label": "Backend" },
+    { "key": "others", "label": "Others" },
+    { "key": "contract", "label": "Contract" },
+    { "key": "longterm", "label": "Long-term" },
+    { "key": "intern", "label": "Intern" }
+  ],
+  "entry": {
+    "endLabelNow": "Now",
+    "descriptionMaxChars": 220,
+    "readMoreLabel": "Read more →"
+  },
+  "dialog": {
+    "responsibilitiesLabel": "Responsibilities",
+    "languagesLabel": "Languages",
+    "technologiesLabel": "Technologies",
+    "librariesLabel": "Libraries",
+    "closeAriaLabel": "Close"
+  }
+}

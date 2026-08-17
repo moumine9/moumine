@@ -12,8 +12,6 @@ const NAV = [
   { href: "/", label: "Home" },
   { href: "/work-experiences", label: "Work" },
   { href: "/projects", label: "Projects" },
-  { href: "/formations", label: "Study" },
-  { href: "/awards", label: "Awards" },
 ];
 
 const ICONS: Record<ThemePref, string> = {

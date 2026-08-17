@@ -1,56 +1,76 @@
-import { useState } from "preact/hooks";
 import TechnologiesSummary from "./languages";
 import LinksElements from "./LinksElements";
-import { isAuthenticated } from "../../utils/visitorAuth";
+import formationsJson from "../../data/formations.json";
+import awardsJson from "../../data/awards.json";
+import content from "./home.content.json";
 
 export default function Home() {
-  const [authed, setAuthed] = useState(typeof window !== "undefined" ? isAuthenticated() : false);
+  const primaryFormation = formationsJson[0];
+  const awardCount = awardsJson.length;
+  const latestAward = awardsJson[0];
+  const { hero, factstrip, stackSection } = content;
 
-  const year = new Date().getFullYear();
+  const recognitions = factstrip.recognitionsTemplate
+    .replace("{count}", String(awardCount))
+    .replace("{contest}", latestAward.contest)
+    .replace("{time}", latestAward.time);
 
   return (
     <>
       <section class="hero">
-        <div class="hero__masthead">
-          <span class="eyebrow">N° 001 &nbsp;·&nbsp; Codito Ergo Sum</span>
-          <span class="hero__masthead-issue">Édition {year}</span>
-        </div>
-
         <div class="hero__grid">
           <div class="hero__nameplate">
             <h1 class="hero__name">
-              <span class="hero__name-word"><span>Abdoul</span></span>
-              <span class="hero__name-word"><span>Moumine.</span></span>
+              {hero.nameWords.map((word, i) => (
+                <span key={`word-${i}`} class="hero__name-word">
+                  <span>{word}</span>
+                </span>
+              ))}
             </h1>
             <p class="hero__role">
-              Software Engineer<span class="dot">·</span>Québec, Canada
+              {hero.role}<span class="dot">{hero.roleSeparator}</span>{hero.place}
             </p>
-            <p class="hero__tagline">
-              Building considered software. Interested in systems that read as
-              carefully as they run — clarity first, then everything else.
-            </p>
+            <p class="hero__tagline">{hero.tagline}</p>
           </div>
 
           <figure class="hero__portrait">
-            <img src="./avatar.png" alt="Portrait" width="128" height="128" />
-            <figcaption class="hero__portrait-caption">
-              &mdash; the author
-            </figcaption>
+            <img
+              src={hero.portraitSrc}
+              alt={hero.portraitAlt}
+              width={hero.portraitSize}
+              height={hero.portraitSize}
+            />
           </figure>
         </div>
 
         <hr class="rule rule--short" />
 
-        <LinksElements authenticated={authed} onAuthenticated={() => setAuthed(true)} />
+        <LinksElements />
+
+        <dl class="factstrip">
+          <div class="factstrip__row">
+            <dt>{factstrip.educationLabel}</dt>
+            <dd>
+              {primaryFormation.type} &mdash;{" "}
+              <a href={primaryFormation.link} target="_blank" rel="noreferrer" class="factstrip__link">
+                {primaryFormation.place}
+              </a>{" "}
+              ({primaryFormation.time.start.slice(0, 4)}&ndash;{primaryFormation.time.end.slice(0, 4)})
+            </dd>
+          </div>
+          <div class="factstrip__row">
+            <dt>{factstrip.recognitionsLabel}</dt>
+            <dd>{recognitions}</dd>
+          </div>
+        </dl>
       </section>
 
       <section id="cv" class="page">
         <header class="page__header">
           <div>
-            <div class="page__eyebrow">Chapter II</div>
-            <h2 class="page__title">Skills</h2>
+            <div class="page__eyebrow">{stackSection.eyebrow}</div>
+            <h2 class="page__title">{stackSection.title}</h2>
           </div>
-          <span class="hero__masthead-issue">Reading time · 2 min</span>
         </header>
         <TechnologiesSummary />
       </section>

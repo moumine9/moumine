@@ -1,0 +1,1 @@
+From a single Jira key, latoile recursively walks the relationship graph — parent, subtasks, siblings, issue links, and any keys mentioned in descriptions or comments. Every issue gets enriched with its GitLab context (merge requests, branches, commits). The full graph is served through a live backend and rendered by an interactive frontend visualizer.

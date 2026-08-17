@@ -1,0 +1,21 @@
+{
+  "slug": "latoile",
+  "projectSlug": "moumine9/latoile",
+  "eyebrow": "Case study",
+  "title": "latoile.",
+  "crumbs": [
+    { "label": "Projects", "href": "/projects" },
+    { "label": "latoile" }
+  ],
+  "lede": "An intermediary layer that gives an LLM one normalized payload of GitLab + Jira context, so it doesn't have to query both systems independently.",
+  "sections": [
+    { "title": "Problem", "file": "problem.md" },
+    { "title": "Approach", "file": "approach.md" },
+    { "title": "Authentication", "file": "authentication.md" },
+    { "title": "Why it exists", "file": "why.md" }
+  ],
+  "cta": {
+    "label": "Source on GitHub →",
+    "href": "https://github.com/moumine9/latoile"
+  }
+}

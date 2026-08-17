@@ -5,11 +5,10 @@ import Header from "./header/header";
 import "../style/index.css";
 
 // Code-splitting is automated for `routes` directory
-import Awards from "../routes/awards/awards";
-import Formations from "../routes/formations/formations";
 import GenerateResume from "../routes/generate";
 import Home from "../routes/home/Home";
 import Projects from "../routes/projects/projects";
+import ProjectLatoile from "../routes/projects/latoile";
 import WorkExperiences from "../routes/workExperiences/workExperiences";
 
 export default function App() {
@@ -21,9 +20,8 @@ export default function App() {
           <Route path="/" component={Home} />
           <Route path="/generate" component={GenerateResume} />
           <Route path="/work-experiences" component={WorkExperiences} />
-          <Route path="/formations" component={Formations} />
           <Route path="/projects" component={Projects} />
-          <Route path="/awards" component={Awards} />
+          <Route path="/projects/latoile" component={ProjectLatoile} />
           <Route default component={NotFound} />
         </Router>
       </main>

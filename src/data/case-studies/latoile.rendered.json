@@ -1,0 +1,38 @@
+{
+  "slug": "latoile",
+  "projectSlug": "moumine9/latoile",
+  "eyebrow": "Case study",
+  "title": "latoile.",
+  "crumbs": [
+    {
+      "label": "Projects",
+      "href": "/projects"
+    },
+    {
+      "label": "latoile"
+    }
+  ],
+  "lede": "An intermediary layer that gives an LLM one normalized payload of GitLab + Jira context, so it doesn't have to query both systems independently.",
+  "sections": [
+    {
+      "title": "Problem",
+      "contentHtml": "<p>Answering &quot;what&#39;s the state of this ticket?&quot; well means reading it in <em>both</em> Jira (the intent, the acceptance criteria, the parent story) and GitLab (the merge requests, the branches, the commits that actually shipped). An LLM asked that question ends up making dozens of small round trips to two APIs and stitches partial answers together.</p>\n<p>latoile does that stitching once, up front, and hands the LLM a single graph it can reason over.</p>"
+    },
+    {
+      "title": "Approach",
+      "contentHtml": "<p>From a single Jira key, latoile recursively walks the relationship graph — parent, subtasks, siblings, issue links, and any keys mentioned in descriptions or comments. Every issue gets enriched with its GitLab context (merge requests, branches, commits). The full graph is served through a live backend and rendered by an interactive frontend visualizer.</p>"
+    },
+    {
+      "title": "Authentication",
+      "contentHtml": "<p>By default latoile piggybacks on the locally logged-in <code>acli</code> (Atlassian) and <code>glab</code> (GitLab) CLI sessions — nothing new to set up if those are already configured.</p>\n<p>For faster startup, both clients can bypass their CLIs entirely. Setting <code>LATOILE_JIRA_URL</code> + <code>LATOILE_JIRA_EMAIL</code> + <code>LATOILE_JIRA_TOKEN</code> drops per-issue fetch time from roughly 5 seconds (spawning <code>acli</code>) to 0.3 seconds. GitLab reads the PAT from the local <code>glab</code> config automatically, or via <code>LATOILE_GITLAB_TOKEN</code>. No credentials are stored in the repository.</p>"
+    },
+    {
+      "title": "Why it exists",
+      "contentHtml": "<p>The same context an engineer assembles in their head every morning — Jira ticket, related tickets, open MRs, recent commits — is exactly the context an LLM assistant needs to be useful for planning, review, or standup summaries. latoile is that context, made portable.</p>"
+    }
+  ],
+  "cta": {
+    "label": "Source on GitHub →",
+    "href": "https://github.com/moumine9/latoile"
+  }
+}

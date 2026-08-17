@@ -1,0 +1,21 @@
+{
+  "hero": {
+    "nameWords": ["Abdoul", "Moumine."],
+    "role": "Software Engineer",
+    "roleSeparator": "·",
+    "place": "Québec, Canada",
+    "tagline": "I build tools that make other people's work faster and less painful.",
+    "portraitSrc": "./avatar.png",
+    "portraitAlt": "Portrait",
+    "portraitSize": 128
+  },
+  "factstrip": {
+    "educationLabel": "Education",
+    "recognitionsLabel": "Recognitions",
+    "recognitionsTemplate": "{count} awards — most recent “{contest}”, {time}"
+  },
+  "stackSection": {
+    "eyebrow": "What I work with",
+    "title": "Stack."
+  }
+}

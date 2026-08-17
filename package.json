@@ -6,8 +6,10 @@
   "type": "module",
   "scripts": {
     "fetch:projects": "node scripts/fetch-projects.mjs",
-    "build": "npm run fetch:projects && npx yaml2json src/data --pretty --save --recursive && vite build",
-    "dev": "npm run fetch:projects && npx yaml2json src/data --pretty --save --recursive && vite",
+    "render:case-studies": "node scripts/render-case-studies.mjs",
+    "prebuild:data": "npm run fetch:projects && npm run render:case-studies",
+    "build": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite build",
+    "dev": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite",
     "preview": "vite preview",
     "lint": "eslint src",
     "test": "jest"
@@ -22,14 +24,12 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@preact/signals": "^1.1.2",
-    "bootstrap": "^5.3.5",
     "dayjs": "^1.11.7",
     "lodash": "^4.18.1",
     "preact": "^10.19.5",
     "preact-iso": "^2.4.0",
     "preact-render-to-string": "^6.3.1",
     "preact-router": "^3.2.1",
-    "react-bootstrap": "^2.10.9",
     "usehooks-ts": "^3.1.1",
     "yaml": "^2.9.0"
   },

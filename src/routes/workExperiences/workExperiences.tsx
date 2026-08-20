@@ -136,6 +136,11 @@ function ExperienceDialog(props: { exp: WorkExperience; onClose: () => void }) {
     exp.years.end === "now" ? dayjs() : dayjs(exp.years.end),
   ];
   const roleDuration = dayjs.duration(start.diff(end)).humanize();
+  const types = exp.type?.split(";").filter(Boolean) ?? [];
+  const frameworks = exp.frameworks?.react?.version?.length
+    ? `React ${exp.frameworks.react.version.join(", ")}`
+    : null;
+  const editors = exp.environment?.editor?.filter(Boolean) ?? [];
 
   useEffect(() => {
     const d = dialogRef.current;
@@ -162,11 +167,18 @@ function ExperienceDialog(props: { exp: WorkExperience; onClose: () => void }) {
     >
       <div class="dialog__inner">
         <header class="dialog__header">
-          <div>
-            <span class="eyebrow" style={{ display: "block", marginBottom: "0.4rem" }}>
-              {exp.company.name}
-            </span>
+          <div class="dialog__heading">
+            <span class="eyebrow dialog__eyebrow">{exp.company.name}</span>
             <h2 class="dialog__title">{exp.role.name}</h2>
+            {types.length > 0 && (
+              <ul class="entry__tags dialog__tags">
+                {types.map((t) => (
+                  <li key={`dialog-tag-${exp.company.name}-${t}`} class="entry__tag">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <button type="button" class="dialog__close" aria-label={labels.closeAriaLabel} onClick={onClose}>
             <Icon name="xmark" />
@@ -176,48 +188,52 @@ function ExperienceDialog(props: { exp: WorkExperience; onClose: () => void }) {
         <div class="dialog__body">
           <p class="dialog__lede">{exp.role.description}</p>
 
-          <hr class="rule" />
-
-          <div class="eyebrow" style={{ marginBottom: "0.75rem" }}>{labels.responsibilitiesLabel}</div>
-          <ul style={{ fontFamily: "var(--font-serif)", color: "var(--ink-soft)", paddingLeft: "1.25rem" }}>
-            {exp.role.tasks.map((t, i) => (
-              <li key={`task-${i}`} style={{ marginBottom: "0.35rem" }}>{t}</li>
-            ))}
-          </ul>
+          <section class="dialog__section">
+            <div class="eyebrow dialog__label">{labels.responsibilitiesLabel}</div>
+            <ul class="dialog__tasks">
+              {exp.role.tasks.map((t, i) => (
+                <li key={`task-${i}`}>{t}</li>
+              ))}
+            </ul>
+          </section>
 
           {exp.languages && exp.languages.length > 0 && (
-            <>
-              <hr class="rule" />
-              <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>{labels.languagesLabel}</div>
-              <p style={{ fontFamily: "var(--font-serif)" }}>{exp.languages.join(" · ")}</p>
-            </>
+            <DialogRow label={labels.languagesLabel} value={exp.languages.join(" · ")} />
+          )}
+
+          {frameworks && (
+            <DialogRow label={labels.frameworksLabel} value={frameworks} />
           )}
 
           {exp.technologies && exp.technologies.length > 0 && (
-            <>
-              <hr class="rule" />
-              <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>{labels.technologiesLabel}</div>
-              <p style={{ fontFamily: "var(--font-serif)" }}>{exp.technologies.join(" · ")}</p>
-            </>
+            <DialogRow label={labels.technologiesLabel} value={exp.technologies.join(" · ")} />
           )}
 
           {exp.librairies && exp.librairies.length > 0 && (
-            <>
-              <hr class="rule" />
-              <div class="eyebrow" style={{ marginBottom: "0.5rem" }}>{labels.librariesLabel}</div>
-              <p style={{ fontFamily: "var(--font-serif)" }}>{exp.librairies.join(" · ")}</p>
-            </>
+            <DialogRow label={labels.librariesLabel} value={exp.librairies.join(" · ")} />
           )}
 
-          <hr class="rule" />
-          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", fontFamily: "var(--font-serif)", color: "var(--ink-mute)", fontStyle: "italic" }}>
+          {editors.length > 0 && (
+            <DialogRow label={labels.environmentLabel} value={editors.join(" · ")} />
+          )}
+
+          <footer class="dialog__meta">
             <span>{exp.years.start} &mdash; {exp.years.end} ({roleDuration})</span>
             <span>{exp.company.place}</span>
             {exp.company.team && <span>{exp.company.team} · {exp.company.sector}</span>}
-          </div>
+          </footer>
         </div>
       </div>
     </dialog>
+  );
+}
+
+function DialogRow(props: { label: string; value: string }) {
+  return (
+    <section class="dialog__section">
+      <div class="eyebrow dialog__label">{props.label}</div>
+      <p class="dialog__value">{props.value}</p>
+    </section>
   );
 }
 

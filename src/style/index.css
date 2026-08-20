@@ -816,6 +816,65 @@ body {
 	margin: 0 0 1.5rem;
 }
 
+.dialog__heading {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.dialog__eyebrow {
+	display: block;
+}
+
+.dialog__tags {
+	margin-top: 0.35rem;
+}
+
+.dialog__section {
+	margin-top: 1.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--rule, var(--ink));
+}
+
+.dialog__section:first-of-type {
+	margin-top: 0;
+	padding-top: 0;
+	border-top: 0;
+}
+
+.dialog__label {
+	margin-bottom: 0.6rem;
+}
+
+.dialog__value {
+	font-family: var(--font-serif);
+	color: var(--ink-soft);
+	margin: 0;
+}
+
+.dialog__tasks {
+	font-family: var(--font-serif);
+	color: var(--ink-soft);
+	padding-left: 1.25rem;
+	margin: 0;
+}
+
+.dialog__tasks li {
+	margin-bottom: 0.35rem;
+}
+
+.dialog__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+	margin-top: 1.75rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--rule, var(--ink));
+	font-family: var(--font-serif);
+	font-style: italic;
+	color: var(--ink-mute);
+}
+
 /* ============================================================
    Case study (dedicated project pages)
    ============================================================ */

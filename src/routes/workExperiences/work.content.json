@@ -8,7 +8,11 @@
   "filters": [
     { "key": "frontend", "label": "Frontend" },
     { "key": "backend", "label": "Backend" },
+    { "key": "fullstack", "label": "Fullstack" },
     { "key": "others", "label": "Others" },
+    { "key": "react", "label": "React" },
+    { "key": "typescript", "label": "TypeScript" },
+    { "key": "node", "label": "Node" },
     { "key": "contract", "label": "Contract" },
     { "key": "longterm", "label": "Long-term" },
     { "key": "intern", "label": "Intern" }
@@ -21,8 +25,10 @@
   "dialog": {
     "responsibilitiesLabel": "Responsibilities",
     "languagesLabel": "Languages",
+    "frameworksLabel": "Frameworks",
     "technologiesLabel": "Technologies",
     "librariesLabel": "Libraries",
+    "environmentLabel": "Environment",
     "closeAriaLabel": "Close"
   }
 }

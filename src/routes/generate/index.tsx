@@ -1,6 +1,8 @@
 import content from "./generate.content.json";
+import { usePageMeta } from "../../utils/usePageMeta";
 
 export default function GenerateResume() {
+  usePageMeta(content.title);
   return (
     <section class="page">
       <header class="page__header">
@@ -9,9 +11,7 @@ export default function GenerateResume() {
           <h1 class="page__title">{content.title}</h1>
         </div>
       </header>
-      <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--ink-soft)" }}>
-        {content.body}
-      </p>
+      <p class="page__note">{content.body}</p>
     </section>
   );
 }

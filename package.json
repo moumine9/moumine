@@ -8,26 +8,23 @@
     "fetch:projects": "node scripts/fetch-projects.mjs",
     "render:case-studies": "node scripts/render-case-studies.mjs",
     "prebuild:data": "npm run fetch:projects && npm run render:case-studies",
-    "build": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite build",
+    "build": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite build && node scripts/inject-titles.mjs",
     "dev": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@preact/signals": "^1.1.2",
     "dayjs": "^1.11.7",
-    "lodash": "^4.18.1",
     "preact": "^10.19.5",
     "preact-iso": "^2.4.0",
     "preact-render-to-string": "^6.3.1",
     "preact-router": "^3.2.1",
-    "usehooks-ts": "^3.1.1",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
-    "@types/lodash": "^4.14.189",
+    "@types/node": "^26.2.0",
     "sirv-cli": "^2.0.2",
-    "typescript": "^4.9.5",
+    "typescript": "^5.9.3",
     "vite": "^8.2.1"
   }
 }

@@ -55,6 +55,51 @@ const Header = () => {
     if (detailsRef.current) detailsRef.current.open = false;
   };
 
+  const onMenuKeyDown = (e: KeyboardEvent) => {
+    const d = detailsRef.current;
+    if (!d) return;
+    const options = Array.from(
+      d.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]'),
+    );
+    const activeIndex = options.indexOf(document.activeElement as HTMLButtonElement);
+
+    if (!d.open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        d.open = true;
+        options[e.key === "ArrowDown" ? 0 : options.length - 1]?.focus();
+      }
+      return;
+    }
+
+    switch (e.key) {
+      case "Escape":
+        if (d.open) {
+          d.open = false;
+          d.querySelector("summary")?.focus();
+        }
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        options[(activeIndex + 1) % options.length]?.focus();
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        options[
+          activeIndex <= 0 ? options.length - 1 : activeIndex - 1
+        ]?.focus();
+        break;
+      case "Home":
+        e.preventDefault();
+        options[0]?.focus();
+        break;
+      case "End":
+        e.preventDefault();
+        options[options.length - 1]?.focus();
+        break;
+    }
+  };
+
   const current = OPTIONS.find((o) => o.key === pref)!;
 
   return (
@@ -72,7 +117,11 @@ const Header = () => {
               {label}
             </a>
           ))}
-          <details ref={detailsRef} class="themepicker">
+          <details
+            ref={detailsRef}
+            class="themepicker"
+            onKeyDown={onMenuKeyDown}
+          >
             <summary class="themepicker__summary" aria-label={`Theme: ${current.label}`}>
               <Icon name={current.icon} />
               <span>{current.label}</span>

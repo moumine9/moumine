@@ -1,5 +1,6 @@
 import projectsJson from "../../data/projects.json";
 import content from "./projects.content.json";
+import { usePageMeta } from "../../utils/usePageMeta";
 
 interface Project {
   slug: string;
@@ -19,6 +20,7 @@ function formatPushed(iso: string): string {
 }
 
 export default function Projects() {
+  usePageMeta("Projects");
   const projects: Project[] = projectsJson;
   const caseStudies = content.caseStudies as Record<string, string>;
 
@@ -43,19 +45,11 @@ export default function Projects() {
             <div class="entry__body">
               <h3 class="entry__role">
                 {caseStudy ? (
-                  <a
-                    href={caseStudy}
-                    style={{ color: "inherit", textDecoration: "none", borderBottom: "1px solid var(--ink)" }}
-                  >
+                  <a href={caseStudy} class="entry__role-link">
                     {p.name}
                   </a>
                 ) : (
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: "inherit", textDecoration: "none", borderBottom: "1px solid var(--ink)" }}
-                  >
+                  <a href={p.url} target="_blank" rel="noreferrer" class="entry__role-link">
                     {p.name}
                   </a>
                 )}
@@ -75,11 +69,7 @@ export default function Projects() {
                 </ul>
               )}
               {caseStudy && (
-                <a
-                  href={caseStudy}
-                  class="entry__link"
-                  style={{ display: "inline-block", marginTop: "0.5rem" }}
-                >
+                <a href={caseStudy} class="entry__link">
                   {content.entry.readCaseStudyLabel}
                 </a>
               )}

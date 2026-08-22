@@ -1,6 +1,7 @@
 import { LocationProvider, Route, Router } from "preact-iso";
 
 import Header from "./header/header";
+import { usePageMeta } from "../utils/usePageMeta";
 
 import "../style/index.css";
 
@@ -30,6 +31,7 @@ export default function App() {
 }
 
 function NotFound() {
+  usePageMeta("Not found");
   return (
     <section class="page">
       <header class="page__header">
@@ -39,7 +41,7 @@ function NotFound() {
         </div>
         <span class="hero__masthead-issue">404</span>
       </header>
-      <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--ink-soft)" }}>
+      <p class="page__note">
         The page you're looking for has been misfiled or never printed.
       </p>
     </section>

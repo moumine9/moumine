@@ -8,6 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import workExperiencesJson from "../../data/workexperiences.json";
 import content from "./work.content.json";
 import { Icon } from "../../components/Icon";
+import { usePageMeta } from "../../utils/usePageMeta";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -15,6 +16,7 @@ dayjs.extend(duration);
 type FilterKey = string;
 
 export default function WorkExperiences() {
+  usePageMeta("Work");
   const [selectedExperience, setSelectedExperience] = useState<WorkExperience>();
   const [active, setActive] = useState<Set<FilterKey>>(new Set());
 

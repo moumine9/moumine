@@ -3,6 +3,8 @@
    small-caps eyebrows, hairline rules. No Bootstrap chrome.
    ============================================================ */
 
+@import "./fonts.css";
+
 :root {
 	--paper: #fbfaf5;
 	--paper-tint: #f3efe4;
@@ -211,9 +213,10 @@ body {
 }
 
 .hero__portrait img {
-	width: 128px;
-	height: 128px;
+	width: 160px;
+	height: 160px;
 	object-fit: cover;
+	border-radius: 50%;
 	filter: grayscale(0.15) contrast(1.05);
 	border: 1px solid var(--rule);
 }
@@ -224,7 +227,7 @@ body {
 	font-size: 0.85rem;
 	color: var(--ink-mute);
 	text-align: right;
-	max-width: 128px;
+	max-width: 160px;
 }
 
 @media (max-width: 720px) {
@@ -516,6 +519,12 @@ body {
 	color: var(--ink-mute);
 }
 
+.page__note {
+	font-family: var(--font-serif);
+	font-style: italic;
+	color: var(--ink-soft);
+}
+
 /* ============================================================
    Entries (work, formation) — chronological blocks
    ============================================================ */
@@ -563,6 +572,19 @@ body {
 	line-height: 1.15;
 }
 
+.entry__role-link {
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid var(--ink);
+	transition: color 180ms var(--tr-slow), border-color 180ms var(--tr-slow);
+}
+
+.entry__role-link:hover,
+.entry__role-link:focus-visible {
+	color: var(--accent);
+	border-bottom-color: var(--accent);
+}
+
 .entry__place {
 	font-family: var(--font-sans);
 	font-size: var(--fs-eyebrow);
@@ -603,6 +625,7 @@ body {
 .entry__tag--accent { color: var(--accent); border-color: var(--accent); }
 
 .entry__link {
+	display: inline-block;
 	font-family: var(--font-sans);
 	font-size: var(--fs-eyebrow);
 	letter-spacing: 0.22em;

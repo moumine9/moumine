@@ -1,5 +1,7 @@
+import { Fragment } from "preact";
 import projectsJson from "../../data/projects.json";
 import content from "../../data/case-studies/latoile.rendered.json";
+import { usePageMeta } from "../../utils/usePageMeta";
 
 interface Project {
   slug: string;
@@ -30,6 +32,7 @@ interface Content {
 
 export default function ProjectLatoile() {
   const c = content as unknown as Content;
+  usePageMeta(c.title);
   const meta = (projectsJson as Project[]).find((p) => p.slug === c.projectSlug);
   const href = meta?.url ?? c.cta.href;
 
@@ -61,13 +64,13 @@ export default function ProjectLatoile() {
       <hr class="rule" />
 
       {c.sections.map((section, i) => (
-        <>
-          <article key={`section-${i}`} class="casestudy__section">
+        <Fragment key={`section-${i}`}>
+          <article class="casestudy__section">
             <h2 class="casestudy__h2">{section.title}</h2>
             <div dangerouslySetInnerHTML={{ __html: section.contentHtml }} />
           </article>
           <hr class="rule" />
-        </>
+        </Fragment>
       ))}
 
       <p class="casestudy__cta">

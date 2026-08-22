@@ -3,8 +3,10 @@ import LinksElements from "./LinksElements";
 import formationsJson from "../../data/formations.json";
 import awardsJson from "../../data/awards.json";
 import content from "./home.content.json";
+import { usePageMeta } from "../../utils/usePageMeta";
 
 export default function Home() {
+  usePageMeta();
   const primaryFormation = formationsJson[0];
   const awardCount = awardsJson.length;
   const latestAward = awardsJson[0];

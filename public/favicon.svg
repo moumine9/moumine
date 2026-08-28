@@ -2,11 +2,40 @@
   <style>
     .bg { fill: #1a1614; }
     .fg { fill: #fbfaf5; }
+    .ink { fill: #1a1614; stroke: #1a1614; }
+    .highlight { fill: #fbfaf5; }
     @media (prefers-color-scheme: dark) {
       .bg { fill: #f2ede1; }
       .fg { fill: #14100e; }
+      .ink { fill: #f2ede1; stroke: #f2ede1; }
+      .highlight { fill: #f2ede1; }
     }
   </style>
   <rect class="bg" width="64" height="64" rx="12" />
-  <text class="fg" x="32" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="34" text-anchor="middle">AM</text>
+
+  <!-- Ears: small pointed leaves, angled outward -->
+  <path class="fg" d="M 22 14 Q 20 8 18 13 Q 19 17 22 17 Z" />
+  <path class="fg" d="M 42 14 Q 44 8 46 13 Q 45 17 42 17 Z" />
+
+  <!-- Head: single pear silhouette, narrow crown, wide jaw/snout -->
+  <path class="fg" d="
+    M 32 12
+    C 24 12, 18 18, 18 26
+    C 18 32, 20 36, 22 40
+    C 22 48, 26 54, 32 54
+    C 38 54, 42 48, 42 40
+    C 44 36, 46 32, 46 26
+    C 46 18, 40 12, 32 12
+    Z
+  " />
+
+  <!-- Eyes: tall ovals, close together, high on face -->
+  <ellipse class="ink" cx="28" cy="26" rx="2" ry="3.2" />
+  <ellipse class="ink" cx="36" cy="26" rx="2" ry="3.2" />
+  <!-- Eye highlights -->
+  <circle class="highlight" cx="28.6" cy="24.8" r="0.7" />
+  <circle class="highlight" cx="36.6" cy="24.8" r="0.7" />
+
+  <!-- Faint smile under the snout ridge -->
+  <path d="M 28 44 Q 32 46.5 36 44" fill="none" class="ink" stroke-width="1" stroke-linecap="round" />
 </svg>

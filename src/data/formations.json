@@ -28,5 +28,22 @@
       "Object Detection with DIGITS (lab)",
       "Neural Network Deployment with DIGITS and TensorRT (lab)"
     ]
+  },
+  {
+    "place": "Neo4j GraphAcademy - Online",
+    "type": "Graph Databases & Cypher - Six Certificates",
+    "link": "https://graphacademy.neo4j.com",
+    "time": {
+      "start": "2026-06",
+      "end": "2026-06"
+    },
+    "courses": [
+      "Neo4j Fundamentals (Jun 7, 2026) - https://graphacademy.neo4j.com/c/58ea45db-3ace-453b-b089-20f223b3dd7f",
+      "Cypher Fundamentals (Jun 7, 2026) - https://graphacademy.neo4j.com/c/91f04c75-b167-43f0-ab62-2f9f57ae3458",
+      "Graph Data Modeling Fundamentals (Jun 7, 2026) - https://graphacademy.neo4j.com/c/5ab7558a-df93-45e4-a9af-c36d514a4b1a",
+      "Importing Data Fundamentals (Jun 8, 2026) - https://graphacademy.neo4j.com/c/615083b9-64fd-451d-b368-4b4ed47ace5f",
+      "Importing CSV data into Neo4j (Jun 8, 2026) - https://graphacademy.neo4j.com/c/5b5f30e4-c6bf-4513-80d8-96938957ce00",
+      "Intermediate Cypher Queries (Jun 11, 2026) - https://graphacademy.neo4j.com/c/58eead09-a335-44a2-89d3-fbbf050cfdda"
+    ]
   }
 ]

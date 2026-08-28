@@ -151,3 +151,6 @@ build/*
 
 # Local CV source files (not for public repo)
 src/data/*.docx
+
+# Claude Code local instructions
+CLAUDE.md

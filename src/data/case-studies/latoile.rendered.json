@@ -23,6 +23,10 @@
       "contentHtml": "<p>From a single Jira key, latoile recursively walks the relationship graph — parent, subtasks, siblings, issue links, and any keys mentioned in descriptions or comments. Every issue gets enriched with its GitLab context (merge requests, branches, commits). The full graph is served through a live backend and rendered by an interactive frontend visualizer.</p>"
     },
     {
+      "title": "Why a graph, not a table",
+      "contentHtml": "<p>The problem is a graph, so the internal model is a graph. Tickets are <em>nodes</em>; parent/subtask/link/mention are <em>typed edges</em>; merge requests and commits attach as satellite nodes hanging off the ticket they resolve. Once shaped this way the &quot;walk from a single Jira key&quot; step is a graph traversal, not a bespoke stitching algorithm.</p>\n<p>Backing this design with Neo4j — modeling the same shape in a real property graph and driving it with <code>Cypher</code> — is what the recent GraphAcademy work (<code>Neo4j Fundamentals</code>, <code>Cypher Fundamentals</code>, <code>Graph Data Modeling Fundamentals</code>, <code>Intermediate Cypher Queries</code>, plus the two <code>Importing Data</code> courses) fed directly back into. The in-memory graph latoile ships today is the same shape you would persist to Neo4j the moment traversal cost, not fetch cost, becomes the bottleneck.</p>"
+    },
+    {
       "title": "Authentication",
       "contentHtml": "<p>By default latoile piggybacks on the locally logged-in <code>acli</code> (Atlassian) and <code>glab</code> (GitLab) CLI sessions — nothing new to set up if those are already configured.</p>\n<p>For faster startup, both clients can bypass their CLIs entirely. Setting <code>LATOILE_JIRA_URL</code> + <code>LATOILE_JIRA_EMAIL</code> + <code>LATOILE_JIRA_TOKEN</code> drops per-issue fetch time from roughly 5 seconds (spawning <code>acli</code>) to 0.3 seconds. GitLab reads the PAT from the local <code>glab</code> config automatically, or via <code>LATOILE_GITLAB_TOKEN</code>. No credentials are stored in the repository.</p>"
     },

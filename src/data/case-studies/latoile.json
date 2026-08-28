@@ -11,6 +11,7 @@
   "sections": [
     { "title": "Problem", "file": "problem.md" },
     { "title": "Approach", "file": "approach.md" },
+    { "title": "Why a graph, not a table", "file": "graph.md" },
     { "title": "Authentication", "file": "authentication.md" },
     { "title": "Why it exists", "file": "why.md" }
   ],

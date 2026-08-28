@@ -1,21 +1,21 @@
 #!/usr/bin/env node
-// Read src/data/projects.json for the curated slug list + overrides,
-// fetch each repo's metadata via gh CLI, write back to projects.json.
+// Read src/data/projects.json for the slug list. Each entry may carry
+// _topicsOverride and/or description to pin values that differ from GitHub.
+// Fetches live metadata via gh CLI and merges overrides on top.
 // Fails soft: if gh is unavailable or a repo fetch fails, keeps the
-// existing entry from projects.json.
+// existing entry. If projects.json is absent or empty, exits with an error
+// rather than silently writing an empty list.
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
 const PATH = "src/data/projects.json";
 
-function loadCurated() {
-  if (!existsSync(PATH)) return [];
-  try {
-    return JSON.parse(readFileSync(PATH, "utf8"));
-  } catch {
-    return [];
-  }
+function loadProjects() {
+  if (!existsSync(PATH)) throw new Error(`${PATH} not found — cannot determine slug list`);
+  const list = JSON.parse(readFileSync(PATH, "utf8"));
+  if (!Array.isArray(list) || list.length === 0) throw new Error(`${PATH} is empty — refusing to overwrite`);
+  return list;
 }
 
 function fetchRepo(slug) {
@@ -39,11 +39,11 @@ function fetchRepo(slug) {
 }
 
 function main() {
-  const curated = loadCurated();
-  const cache = Object.fromEntries(curated.map((p) => [p.slug, p]));
+  const projects = loadProjects();
+  const cache = Object.fromEntries(projects.map((p) => [p.slug, p]));
   const out = [];
 
-  for (const entry of curated) {
+  for (const entry of projects) {
     const slug = entry.slug;
     if (!slug) {
       console.warn("skipping entry with no slug:", entry);
@@ -53,7 +53,11 @@ function main() {
       const fetched = fetchRepo(slug);
       const merged = { ...fetched };
       if (entry.description) merged.description = entry.description;
-      if (Array.isArray(entry.topics) && entry.topics.length) merged.topics = entry.topics;
+      // _topicsOverride pins topics that differ from the GitHub repo's topics
+      if (Array.isArray(entry._topicsOverride) && entry._topicsOverride.length) {
+        merged.topics = entry._topicsOverride;
+        merged._topicsOverride = entry._topicsOverride;
+      }
       out.push(merged);
       console.log(`✓ ${slug}`);
     } catch (err) {

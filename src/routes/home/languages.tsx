@@ -1,8 +1,8 @@
 import languagesJson from "../../data/languages.json";
 
 interface LanguageType {
-  Languages: Record<string, number>;
-  Frameworks: Record<string, number>;
+  Languages?: Record<string, number>;
+  Frameworks?: Record<string, number>;
   Tools?: Record<string, number>;
 }
 
@@ -21,8 +21,8 @@ export default function TechnologiesSummary() {
 }
 
 function StackGroup(props: { name: string; content: LanguageType }) {
-  const langs = Object.keys(props.content.Languages);
-  const frameworks = Object.keys(props.content.Frameworks);
+  const langs = props.content.Languages ? Object.keys(props.content.Languages) : null;
+  const frameworks = props.content.Frameworks ? Object.keys(props.content.Frameworks) : null;
   const tools = props.content.Tools ? Object.keys(props.content.Tools) : null;
 
   return (
@@ -30,14 +30,18 @@ function StackGroup(props: { name: string; content: LanguageType }) {
       <h3 class="stack__group-title">{props.name}</h3>
 
       <dl class="stack__rows">
-        <div class="stack__row">
-          <dt>Languages</dt>
-          <dd>{langs.join(" · ")}</dd>
-        </div>
-        <div class="stack__row">
-          <dt>Frameworks</dt>
-          <dd>{frameworks.join(" · ")}</dd>
-        </div>
+        {langs && (
+          <div class="stack__row">
+            <dt>Languages</dt>
+            <dd>{langs.join(" · ")}</dd>
+          </div>
+        )}
+        {frameworks && (
+          <div class="stack__row">
+            <dt>Frameworks</dt>
+            <dd>{frameworks.join(" · ")}</dd>
+          </div>
+        )}
         {tools && (
           <div class="stack__row">
             <dt>Tools</dt>

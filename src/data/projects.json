@@ -5,10 +5,21 @@
     "description": "Context bridge between GitLab and Jira for LLMs — walks the Jira relationship graph from a single ticket, enriches every issue with merge requests, branches and commits, and serves the normalized graph through a live backend and interactive visualizer.",
     "stars": 0,
     "language": "TypeScript",
-    "topics": [],
+    "topics": [
+      "llm",
+      "jira",
+      "gitlab",
+      "developer-tools"
+    ],
     "url": "https://github.com/moumine9/latoile",
     "pushedAt": "2026-08-28T01:30:01Z",
-    "updatedAt": "2026-08-28T01:30:32Z"
+    "updatedAt": "2026-08-28T01:30:32Z",
+    "_topicsOverride": [
+      "llm",
+      "jira",
+      "gitlab",
+      "developer-tools"
+    ]
   },
   {
     "slug": "moumine9/acli-skills",
@@ -60,10 +71,21 @@
     "description": "Claude Code skill: a checklist of low-risk visual design defaults (colour, contrast, typography, spacing, depth) adapted from Anthony Hobday's guide.",
     "stars": 0,
     "language": null,
-    "topics": [],
+    "topics": [
+      "claude-code",
+      "design",
+      "ui",
+      "skills"
+    ],
     "url": "https://github.com/moumine9/safe-visual-design-rules",
     "pushedAt": "2026-08-28T01:26:00Z",
-    "updatedAt": "2026-08-28T01:26:08Z"
+    "updatedAt": "2026-08-28T01:26:08Z",
+    "_topicsOverride": [
+      "claude-code",
+      "design",
+      "ui",
+      "skills"
+    ]
   },
   {
     "slug": "stxs-live/tsx",

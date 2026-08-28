@@ -12,8 +12,8 @@
       "developer-tools"
     ],
     "url": "https://github.com/moumine9/latoile",
-    "pushedAt": "2026-08-26T15:10:34Z",
-    "updatedAt": "2026-08-26T14:00:02Z"
+    "pushedAt": "2026-08-28T01:30:01Z",
+    "updatedAt": "2026-08-28T01:30:32Z"
   },
   {
     "slug": "moumine9/acli-skills",
@@ -74,5 +74,27 @@
     "url": "https://github.com/moumine9/safe-visual-design-rules",
     "pushedAt": "2026-08-28T01:26:00Z",
     "updatedAt": "2026-08-28T01:26:08Z"
+  },
+  {
+    "slug": "stxs-live/tsx",
+    "name": "tsx",
+    "description": "TSX stock market video generator (Remotion + React)",
+    "stars": 0,
+    "language": "TypeScript",
+    "topics": [],
+    "url": "https://github.com/stxs-live/tsx",
+    "pushedAt": "2026-06-02T02:14:01Z",
+    "updatedAt": "2026-06-02T02:14:05Z"
+  },
+  {
+    "slug": "stxs-live/brvm",
+    "name": "brvm",
+    "description": "BRVM French market video pipeline (Remotion + FastAPI + TimescaleDB)",
+    "stars": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "url": "https://github.com/stxs-live/brvm",
+    "pushedAt": "2026-08-23T18:41:52Z",
+    "updatedAt": "2026-08-23T18:41:55Z"
   }
 ]

@@ -8,3 +8,5 @@
 - slug: "moumine9/safe-visual-design-rules"
   description: "Claude Code skill: a checklist of low-risk visual design defaults (colour, contrast, typography, spacing, depth) adapted from Anthony Hobday's guide."
   tags: ["claude-code", "design", "ui", "skills"]
+- slug: "stxs-live/tsx"
+- slug: "stxs-live/brvm"

@@ -8,8 +8,8 @@
     "fetch:projects": "node scripts/fetch-projects.mjs",
     "render:case-studies": "node scripts/render-case-studies.mjs",
     "prebuild:data": "npm run fetch:projects && npm run render:case-studies",
-    "build": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite build && node scripts/inject-titles.mjs",
-    "dev": "npm run prebuild:data && npx yaml2json src/data --pretty --save --recursive && vite",
+    "build": "npm run prebuild:data && vite build && node scripts/inject-titles.mjs",
+    "dev": "npm run prebuild:data && vite",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -12,8 +12,17 @@
       "Preact": 8,
       "Angular6": 5,
       "Laravel": 5,
-      "Bootstrap": 9,
-      "Jquery": 9
+      "Bootstrap": 9
+    },
+    "Tools": {
+      "Storybook": 8,
+      "React Query": 8,
+      "React Hook Form": 7,
+      "Remotion": 7,
+      "Micro-Frontend": 7,
+      "Yup": 6,
+      "PlotlyJS": 6,
+      "jQuery": 7
     }
   },
   "Backend": {
@@ -23,9 +32,43 @@
       "C++": 6
     },
     "Frameworks": {
-      ".Net": 6,
-      "STL": 5,
-      ".NetCore": 6
+      ".NET Core": 6,
+      ".NET": 6,
+      "FastAPI": 6,
+      "STL": 5
+    },
+    "Tools": {
+      "Node.js": 8,
+      "iTwinJS": 5
+    }
+  },
+  "Data & Infra": {
+    "Languages": {
+      "SQL": 7
+    },
+    "Frameworks": {
+      "TimescaleDB": 6,
+      "ElasticSearch": 7
+    },
+    "Tools": {
+      "Azure Cloud": 7,
+      "DataBricks": 6
+    }
+  },
+  "Tooling & DevOps": {
+    "Languages": {
+      "Shell": 8
+    },
+    "Frameworks": {
+      "GitLab CI": 7
+    },
+    "Tools": {
+      "GitLab": 9,
+      "Jira": 8,
+      "Confluence": 7,
+      "Claude Code": 8,
+      "MS Dynamics CRM": 5,
+      "Solid Edge": 4
     }
   }
 }

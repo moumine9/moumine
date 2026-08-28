@@ -1,29 +1,20 @@
 #!/usr/bin/env node
-// Read src/data/projects.yml, fetch each repo's metadata via gh CLI,
-// write src/data/projects.json. Fails soft: if gh is unavailable or
-// a repo fetch fails, keeps any existing entry from projects.json.
+// Read src/data/projects.json for the curated slug list + overrides,
+// fetch each repo's metadata via gh CLI, write back to projects.json.
+// Fails soft: if gh is unavailable or a repo fetch fails, keeps the
+// existing entry from projects.json.
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { parse } from "yaml";
 
-const CURATED_PATH = "src/data/projects.yml";
-const OUT_PATH = "src/data/projects.json";
+const PATH = "src/data/projects.json";
 
 function loadCurated() {
-  const raw = readFileSync(CURATED_PATH, "utf8");
-  const parsed = parse(raw);
-  if (!Array.isArray(parsed)) throw new Error("projects.yml must be an array");
-  return parsed;
-}
-
-function loadCache() {
-  if (!existsSync(OUT_PATH)) return {};
+  if (!existsSync(PATH)) return [];
   try {
-    const list = JSON.parse(readFileSync(OUT_PATH, "utf8"));
-    return Object.fromEntries(list.map((p) => [p.slug, p]));
+    return JSON.parse(readFileSync(PATH, "utf8"));
   } catch {
-    return {};
+    return [];
   }
 }
 
@@ -49,7 +40,7 @@ function fetchRepo(slug) {
 
 function main() {
   const curated = loadCurated();
-  const cache = loadCache();
+  const cache = Object.fromEntries(curated.map((p) => [p.slug, p]));
   const out = [];
 
   for (const entry of curated) {
@@ -62,7 +53,7 @@ function main() {
       const fetched = fetchRepo(slug);
       const merged = { ...fetched };
       if (entry.description) merged.description = entry.description;
-      if (Array.isArray(entry.tags) && entry.tags.length) merged.topics = entry.tags;
+      if (Array.isArray(entry.topics) && entry.topics.length) merged.topics = entry.topics;
       out.push(merged);
       console.log(`✓ ${slug}`);
     } catch (err) {
@@ -76,8 +67,8 @@ function main() {
     }
   }
 
-  writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + "\n");
-  console.log(`wrote ${out.length} project(s) to ${OUT_PATH}`);
+  writeFileSync(PATH, JSON.stringify(out, null, 2) + "\n");
+  console.log(`wrote ${out.length} project(s) to ${PATH}`);
 }
 
 main();

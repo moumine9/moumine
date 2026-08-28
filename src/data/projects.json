@@ -12,8 +12,8 @@
       "developer-tools"
     ],
     "url": "https://github.com/moumine9/latoile",
-    "pushedAt": "2026-08-17T17:49:22Z",
-    "updatedAt": "2026-08-17T17:52:38Z"
+    "pushedAt": "2026-08-26T15:10:34Z",
+    "updatedAt": "2026-08-26T14:00:02Z"
   },
   {
     "slug": "moumine9/acli-skills",
@@ -56,7 +56,23 @@
     "language": "Shell",
     "topics": [],
     "url": "https://github.com/moumine9/claude-code-setup",
-    "pushedAt": "2026-08-18T14:17:37Z",
-    "updatedAt": "2026-08-18T14:20:33Z"
+    "pushedAt": "2026-08-28T01:26:45Z",
+    "updatedAt": "2026-08-28T01:26:55Z"
+  },
+  {
+    "slug": "moumine9/safe-visual-design-rules",
+    "name": "safe-visual-design-rules",
+    "description": "Claude Code skill: a checklist of low-risk visual design defaults (colour, contrast, typography, spacing, depth) adapted from Anthony Hobday's guide.",
+    "stars": 0,
+    "language": null,
+    "topics": [
+      "claude-code",
+      "design",
+      "ui",
+      "skills"
+    ],
+    "url": "https://github.com/moumine9/safe-visual-design-rules",
+    "pushedAt": "2026-08-28T01:26:00Z",
+    "updatedAt": "2026-08-28T01:26:08Z"
   }
 ]

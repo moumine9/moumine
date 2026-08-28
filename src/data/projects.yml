@@ -5,3 +5,6 @@
 - slug: "moumine9/glab-skills"
 - slug: "moumine9/claude-status"
 - slug: "moumine9/claude-code-setup"
+- slug: "moumine9/safe-visual-design-rules"
+  description: "Claude Code skill: a checklist of low-risk visual design defaults (colour, contrast, typography, spacing, depth) adapted from Anthony Hobday's guide."
+  tags: ["claude-code", "design", "ui", "skills"]
